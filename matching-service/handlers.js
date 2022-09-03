@@ -1,4 +1,4 @@
-
+import { Match } from './repository.js'
 class Queue {
     queues = {
         'easy' : [],
@@ -15,20 +15,27 @@ const q = new Queue
 
 export function findHandler(payload) {
     const socket = this
+    const requesting_userid = payload['userid']
     
     // Keep track of userids and their associated socketids
-    q.idmap[payload['userid']] = socket.id
+    q.idmap[requesting_userid] = socket.id
 
     console.log("Recieved Find request. Payload : ", payload)
-    const userid = q.findMatch(payload['userid'],payload['difficulty'])
+    const waiting_userid = q.findMatch(requesting_userid,payload['difficulty'])
     console.log(q.queues)
 
-    if(userid == undefined) return
+    // Match Not Found
+    if(waiting_userid == undefined) return
 
+    // Match Found
+    Match.create({
+        userid1: requesting_userid,
+        userid2: waiting_userid,
+        difficulty:"easy"
+    });
+      
     // Emit to the pair
-    socket.emit("match:found", userid)                                // Waiting    Person
-    socket.to(q.idmap[userid]).emit("match:found", payload['userid']) // Requesting Person
-
-    console.log('Found Match', userid)
+    socket.emit("match:found", waiting_userid)
+    socket.to(q.idmap[waiting_userid]).emit("match:found", requesting_userid) 
 
 }
