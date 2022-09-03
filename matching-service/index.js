@@ -14,8 +14,6 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, { /* options */ });
 
 io.on("connection", (socket) => {
-    console.log(`Established Connection with ${socket.id}`);
-
     socket.on("match:find", findHandler)
 });
 

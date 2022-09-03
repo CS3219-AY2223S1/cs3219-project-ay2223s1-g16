@@ -15,13 +15,19 @@ const q = new Queue
 
 export function findHandler(payload) {
     const socket = this
+    
+    // Keep track of userids and their associated socketids
     q.idmap[payload['userid']] = socket.id
+
     console.log("Recieved Find request. Payload : ", payload)
     const userid = q.findMatch(payload['userid'],payload['difficulty'])
     console.log(q.queues)
+
     if(userid == undefined) return
-    socket.broadcast.emit("match:found")
-    socket.broadcast.emit("match:found")
+
+    // Emit to the pair
+    socket.emit("match:found", userid)                                // Waiting    Person
+    socket.to(q.idmap[userid]).emit("match:found", payload['userid']) // Requesting Person
 
     console.log('Found Match', userid)
 
