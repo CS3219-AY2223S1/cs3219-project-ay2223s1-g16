@@ -1,0 +1,27 @@
+<div id="selection-page">
+    <h1>Choose your difficulty</h1>
+    <p>userid : <input id="userid" type="text" value="1"></p>
+    
+    <div>
+        <input type="radio" id="easy" name="difficulty" checked value="easy">
+        <label for="easy">Easy</label><br>
+        <input type="radio" id="medium" name="difficulty" value="medium">
+        <label for="medium">Medium</label><br>
+        <input type="radio" id="hard" name="difficulty" value="hard">
+        <label for="hard">Hard</label>
+    </div>
+    <button onclick="submit()">Submit</button>
+</div>
+
+<div id="loading-page" style="display:none">
+    <h1>Finding Match...</h1>
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>
+
+<div id="match-found-page" style="display:none">
+    <h1>Found Match</h1>
+    <p>You'll be working with <span id="partnerid"></span></p>
+</div>
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./styles.css">
+<script src='./client.js'></script>
