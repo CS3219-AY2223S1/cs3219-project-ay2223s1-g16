@@ -1,10 +1,26 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Heading, Text, Flex } from "@chakra-ui/react";
+
+import programmingSvg from "~/assets/undraw_programming.svg";
 
 function App() {
   return (
-    <Box>
-      <Text>Hello World</Text>
-    </Box>
+    <Flex
+      direction={"row"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      gap={"10vw"}
+      wrap={"wrap"}
+      sx={{ height: "100vh" }}
+    >
+      <Box>
+        <img src={programmingSvg} alt="logo" />
+        <Heading>PeerPrep</Heading>
+        <Text>
+          Ace your coding interviews through practice via our interactive
+          platform
+        </Text>
+      </Box>
+    </Flex>
   );
 }
 
