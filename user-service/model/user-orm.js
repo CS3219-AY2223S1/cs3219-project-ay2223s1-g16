@@ -1,9 +1,14 @@
+import bcrypt from "bcrypt";
+
 import { createUser, isUserExist } from "./repository.js";
+
+const SALT_ROUNDS = 8;
 
 //need to separate orm functions from repository to decouple business logic from persistence
 export async function ormCreateUser(username, password) {
   try {
-    const newUser = await createUser({ username, password });
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const newUser = await createUser({ username, password: hashedPassword });
     newUser.save();
     return true;
   } catch (err) {
