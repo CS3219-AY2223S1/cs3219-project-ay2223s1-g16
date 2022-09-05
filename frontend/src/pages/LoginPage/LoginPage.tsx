@@ -1,10 +1,8 @@
 import { Box, Heading, Text, Flex } from "@chakra-ui/react";
-
 import programmingSvg from "~/assets/undraw_programming.svg";
-
 import { Login } from "./components/Login";
 
-export const LoginPage = () => {
+const LoginPage = () => {
     return (
         <Flex
             direction={"row"}
