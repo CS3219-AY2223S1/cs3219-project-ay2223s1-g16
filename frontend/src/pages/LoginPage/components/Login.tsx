@@ -1,31 +1,25 @@
-import {
-    Tabs,
-    TabList,
-    TabPanels,
-    Tab,
-    TabPanel,
-} from "@chakra-ui/react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 import { SignUp } from "./SignUp";
 
 import { SignIn } from "./SignIn";
 
 export const Login = () => {
-    return (
-        <Tabs>
-            <TabList>
-                <Tab>Sign Up</Tab>
-                <Tab>Sign In</Tab>
-            </TabList>
+  return (
+    <Tabs>
+      <TabList>
+        <Tab>Sign Up</Tab>
+        <Tab>Sign In</Tab>
+      </TabList>
 
-            <TabPanels>
-                <TabPanel>
-                    <SignUp />
-                </TabPanel>
-                <TabPanel>
-                    <SignIn />
-                </TabPanel>
-            </TabPanels>
-        </Tabs>
-    );
+      <TabPanels>
+        <TabPanel>
+          <SignUp />
+        </TabPanel>
+        <TabPanel>
+          <SignIn />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
 };
