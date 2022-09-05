@@ -53,7 +53,6 @@ export const SignUp = () => {
                 isClosable: true,
             });
         }
-
     };
 
     const isInvalid = (field: string) => {
@@ -73,7 +72,7 @@ export const SignUp = () => {
             <FormControl isRequired isInvalid={isInvalid("username")}>
                 <FormLabel marginY={2}>Username</FormLabel>
                 <Input
-                    id="signup_username"
+                    id="signupUsername"
                     placeholder="Username"
                     {...register("username", {
                         minLength: {
@@ -93,7 +92,7 @@ export const SignUp = () => {
             <FormControl isRequired isInvalid={isInvalid("email")}>
                 <FormLabel marginY={2}>Email Address</FormLabel>
                 <Input
-                    id="signup_email"
+                    id="signupEmail"
                     type="email"
                     placeholder="Email Address"
                     {...register("email", {
@@ -119,7 +118,7 @@ export const SignUp = () => {
             <FormControl isRequired isInvalid={isInvalid("password")}>
                 <FormLabel marginY={2}>Password</FormLabel>
                 <Input
-                    id="signup_password"
+                    id="signupPassword"
                     type="password"
                     placeholder="Password"
                     {...register("password", {
@@ -141,7 +140,7 @@ export const SignUp = () => {
             <FormControl isRequired isInvalid={isInvalid("passwordAgain")}>
                 <FormLabel marginY={2}>Password Again</FormLabel>
                 <Input
-                    id="signup_passwordAgain"
+                    id="signupPasswordAgain"
                     type="password"
                     placeholder="Password Again"
                     {...register("passwordAgain", {
@@ -160,7 +159,11 @@ export const SignUp = () => {
                     <FormErrorMessage>{errors.passwordAgain.message}</FormErrorMessage>
                 )}
             </FormControl>
-            <Button type="submit" marginY={4} colorScheme="facebook" isLoading={isSubmitting}>
+            <Button
+                type="submit"
+                marginY={4}
+                colorScheme="facebook"
+                isLoading={isSubmitting}>
                 Submit
             </Button>
         </form>

@@ -66,7 +66,7 @@ export const SignIn = () => {
             <FormControl isRequired isInvalid={isInvalid("username")}>
                 <FormLabel marginY={2}>Username</FormLabel>
                 <Input
-                    id="signin_username"
+                    id="signinUsername"
                     placeholder="Username"
                     {...register("username", {
                         minLength: {
@@ -86,7 +86,7 @@ export const SignIn = () => {
             <FormControl isRequired isInvalid={isInvalid("password")}>
                 <FormLabel marginY={2}>Password</FormLabel>
                 <Input
-                    id="signin_password"
+                    id="signinPassword"
                     type="password"
                     placeholder="Password"
                     {...register("password", {

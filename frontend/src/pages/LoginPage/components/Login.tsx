@@ -6,8 +6,6 @@ import {
     TabPanel,
 } from "@chakra-ui/react";
 
-import { useState } from 'react';
-
 import { SignUp } from "./SignUp";
 
 import { SignIn } from "./SignIn";
