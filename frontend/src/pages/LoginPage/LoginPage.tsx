@@ -13,7 +13,7 @@ const LoginPage = () => {
             sx={{ height: "100vh" }}
         >
             <Login />
-            <Box>
+            <Box padding={2}>
                 <img src={programmingSvg} alt="logo" />
                 <Heading>PeerPrep</Heading>
                 <Text>

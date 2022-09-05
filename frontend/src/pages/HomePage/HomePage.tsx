@@ -14,9 +14,9 @@ const HomePage = () => {
                 wrap={"wrap"}
                 sx={{ height: "100vh" }}
                 backgroundImage={pairProgrammingSvg}
-                backgroundRepeat="no-repeat"
-                backgroundPosition="center"
-                backgroundSize="contain"
+                backgroundRepeat={"no-repeat"}
+                backgroundPosition={"center"}
+                backgroundSize={"contain"}
             >
                 <Box padding={2}>
                     <Heading>PeerPrep</Heading>
