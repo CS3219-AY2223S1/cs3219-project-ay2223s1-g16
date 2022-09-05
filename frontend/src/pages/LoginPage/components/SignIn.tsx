@@ -7,6 +7,8 @@ import {
     useToast,
 } from "@chakra-ui/react";
 
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+
 import { useForm } from "react-hook-form";
 
 const MIN_LENGTH = 1;
@@ -104,7 +106,12 @@ export const SignIn = () => {
                     <FormErrorMessage>{errors.password.message}</FormErrorMessage>
                 )}
             </FormControl>
-            <Button type="submit" marginY={4} colorScheme="facebook" isLoading={isSubmitting}>
+            <Button
+                type="submit"
+                marginY={4}
+                colorScheme="facebook"
+                isLoading={isSubmitting}
+                rightIcon={<ArrowForwardIcon />}>
                 Submit
             </Button>
         </form>

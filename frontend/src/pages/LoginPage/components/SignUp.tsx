@@ -7,6 +7,8 @@ import {
     useToast,
 } from "@chakra-ui/react";
 
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+
 import { useForm } from "react-hook-form";
 
 import { useState } from "react";
@@ -163,7 +165,8 @@ export const SignUp = () => {
                 type="submit"
                 marginY={4}
                 colorScheme="facebook"
-                isLoading={isSubmitting}>
+                isLoading={isSubmitting}
+                rightIcon={<ArrowForwardIcon />}>
                 Submit
             </Button>
         </form>
