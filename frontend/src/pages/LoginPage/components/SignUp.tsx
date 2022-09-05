@@ -12,6 +12,7 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 
 import { useState } from "react";
+import { userSvcClient } from "~/utils/request";
 
 const MIN_LENGTH = 1;
 const MAX_LENGTH = 64;
@@ -34,23 +35,22 @@ export const SignUp = () => {
   } = useForm<FormValues>({
     defaultValues: {
       username: "",
-      email: "",
       password: "",
       passwordAgain: "",
     },
   });
 
   const onSubmitHandler = async (values: FormValues) => {
-    const { username, email, password } = values;
-    console.log(username, email, password);
     try {
-      await new Promise((r) => setTimeout(r, 1000));
-      // throw new Error("Oops");
-      // Redirect to next page
-    } catch (e) {
-      console.log("Catch async error");
+      const response = await userSvcClient.post("", values);
+      const { message } = response.data;
       toast({
-        title: "Something went wrong, please try again",
+        title: message,
+      });
+    } catch (err: any) {
+      const { message } = err.response.data;
+      toast({
+        title: message,
         status: "error",
         isClosable: true,
       });
@@ -64,13 +64,8 @@ export const SignUp = () => {
     return false;
   };
 
-  // Might not be necessary
-  const onErrorHandler = (errors: Object) => {
-    console.log("ERRORS", errors);
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler, onErrorHandler)}>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <FormControl isRequired isInvalid={isInvalid("username")}>
         <FormLabel marginY={2}>Username</FormLabel>
         <Input
@@ -89,32 +84,6 @@ export const SignUp = () => {
         />
         {errors.username && (
           <FormErrorMessage>{errors.username.message}</FormErrorMessage>
-        )}
-      </FormControl>
-      <FormControl isRequired isInvalid={isInvalid("email")}>
-        <FormLabel marginY={2}>Email Address</FormLabel>
-        <Input
-          id="signupEmail"
-          type="email"
-          placeholder="Email Address"
-          {...register("email", {
-            minLength: {
-              value: MIN_LENGTH,
-              message: `Email address must be at least ${MIN_LENGTH} character`,
-            },
-            maxLength: {
-              value: MAX_LENGTH,
-              message: `Email address must be at most ${MAX_LENGTH} characters`,
-            },
-            pattern: {
-              value:
-                /[a-zA-Z0-9.! #$%&"*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\. [a-zA-Z0-9-]+)*/,
-              message: "Please use a valid email address",
-            },
-          })}
-        />
-        {errors.email && (
-          <FormErrorMessage>{errors.email.message}</FormErrorMessage>
         )}
       </FormControl>
       <FormControl isRequired isInvalid={isInvalid("password")}>

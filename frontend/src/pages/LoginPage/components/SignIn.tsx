@@ -57,13 +57,8 @@ export const SignIn = () => {
     return false;
   };
 
-  // Might not be necessary
-  const onErrorHandler = (errors: Object) => {
-    console.log("ERRORS", errors);
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler, onErrorHandler)}>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <FormControl isRequired isInvalid={isInvalid("username")}>
         <FormLabel marginY={2}>Username</FormLabel>
         <Input
