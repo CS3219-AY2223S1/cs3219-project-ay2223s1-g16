@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from "socket.io";
-import { findHandler } from './handlers.js';
+import { newMatchHandler } from './handlers.js';
+import { NEW_MATCH_REQUEST } from './public/events.js';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }))
@@ -14,7 +15,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, { /* options */ });
 
 io.on("connection", (socket) => {
-    socket.on("match:find", findHandler)
+    socket.on(NEW_MATCH_REQUEST, newMatchHandler)
 });
 
 httpServer.listen(8001);

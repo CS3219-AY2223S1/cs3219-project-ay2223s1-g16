@@ -1,3 +1,4 @@
+import { MATCH_FOUND, NEW_MATCH_REQUEST } from "./events.js";
 const socket = io();
 let curr_page = "select"
 const pages = {
@@ -13,14 +14,17 @@ function switch_page(name, userid=undefined) {
     curr_page = name
     if(curr_page=='found') document.getElementById('partnerid').innerHTML= userid
 }
-function submit() {
+
+document.getElementById("submit").addEventListener('click', ()=>{
     // Get Difficulty
     const selected = document.querySelector('input[name="difficulty"]:checked')
     if (selected == undefined) throw "Difficulty not chosen"
-    socket.emit("match:find", { "userid": document.getElementById('userid').value, "difficulty": selected.value })
-    if(curr_page != 'found')switch_page('loading')
-}
+    socket.emit(NEW_MATCH_REQUEST, { "userid": document.getElementById('userid').value, "difficulty": selected.value })
+    if(curr_page != 'found') switch_page('loading')
+});
+
+
 socket.on("connect", () => {
     console.log(socket.id);
 });
-socket.on("match:found", (userid) => switch_page('found',userid))
+socket.on(MATCH_FOUND, (userid) => switch_page('found',userid))
