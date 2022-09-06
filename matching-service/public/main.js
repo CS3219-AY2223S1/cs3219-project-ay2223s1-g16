@@ -1,4 +1,4 @@
-import { MATCH_START, MATCH_FAIL, MATCH_SUCCESS, MATCH_REQUEST_NEW } from "./events.js";
+import { MATCH_START, MATCH_FAIL, MATCH_SUCCESS, MATCH_REQUEST_NEW, MATCH_LEAVE } from "./events.js";
 import { startTimer } from './timer.js'
 const socket = io();
 let curr_page = "select"
@@ -23,10 +23,15 @@ document.getElementById("submit").addEventListener('click', () => {
     socket.emit(MATCH_REQUEST_NEW, { "userid": document.getElementById('userid').value, "difficulty": selected.value })
 });
 
+document.getElementById("leave").addEventListener('click', () => {
+    // Get Difficulty
+    socket.emit(MATCH_LEAVE, { "roomid": document.getElementById('roomid').innerHTML })
+});
+
 socket.on("connect", () => {
     console.log(socket.id);
 });
-socket.on(MATCH_SUCCESS, (userid) => switch_page('found', userid))
+socket.on(MATCH_SUCCESS, (roomid) => switch_page('found', roomid))
 socket.on(MATCH_FAIL, () => switch_page("select"))
 socket.on(MATCH_START, ({ timeout }) => {
     switch_page('loading')

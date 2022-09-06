@@ -26,12 +26,12 @@ Match.prototype.completePendingMatch = function(userid) {
 
 await Match.sync({ force: true });
 
-export function removePendingMatch(userid) {
+export function removeMatch(userid) {
     return Match.findAll({where: { 
         [Op.or] : [
             {userid1: userid},
             {userid2: userid},
-        ]}}).then(arr => arr.forEach(e => e.destroy()))
+        ]}}).then(arr => arr.map(e => {e.destroy(); return e.roomid}))
 }
 export function addPendingMatch(userid, difficulty) {
     return Match.create({

@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from "socket.io";
-import { newMatchHandler, disconnectHandler, cancelMatchHandler, setIo } from './handlers.js';
-import { MATCH_REQUEST_CANCEL, MATCH_REQUEST_NEW } from './public/events.js';
+import { newMatchHandler, disconnectHandler, leaveMatchHandler, setIo } from './handlers.js';
+import { MATCH_LEAVE, MATCH_REQUEST_NEW } from './public/events.js';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }))
@@ -16,7 +16,7 @@ const io = new Server(httpServer, { /* options */ });
 setIo(io)
 io.on("connection", (socket) => {
     socket.on(MATCH_REQUEST_NEW, newMatchHandler)
-    socket.on(MATCH_REQUEST_CANCEL, cancelMatchHandler)
+    socket.on(MATCH_LEAVE, leaveMatchHandler)
     socket.on("disconnect", disconnectHandler)
 });
 
