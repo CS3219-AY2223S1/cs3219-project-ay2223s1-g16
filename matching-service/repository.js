@@ -10,17 +10,14 @@ export const Match = sequelize.define('Match', {
         primaryKey: true
     },
     userid1: DataTypes.UUID,
-    userid1_sockid: DataTypes.TEXT,
     userid2: DataTypes.UUID,
-    userid2_sockid: DataTypes.TEXT,
     difficulty: DataTypes.STRING,
     ispending: DataTypes.BOOLEAN
 });
 
-Match.prototype.completePendingMatch = function(userid,sockid) {
+Match.prototype.completePendingMatch = function(userid) {
     this.set({
         userid2: userid,
-        userid2_sockid: sockid,
         ispending: false
     })
     return this.save()
@@ -36,10 +33,9 @@ export function removePendingMatch(userid) {
             {userid2: userid},
         ]}}).then(arr => arr.forEach(e => e.destroy()))
 }
-export function addPendingMatch(userid, socketid, difficulty) {
+export function addPendingMatch(userid, difficulty) {
     return Match.create({
         userid1: userid,
-        userid1_sockid: socketid,
         difficulty:difficulty,
         ispending: true
     });

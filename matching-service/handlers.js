@@ -2,6 +2,10 @@ import { addPendingMatch, Match, removePendingMatch } from './repository.js'
 import { MATCH_FAIL, MATCH_SUCCESS, MATCH_START } from './public/events.js'
 
 const MATCH_TIMEOUT = 30
+let _io = undefined;
+export function setIo(io) {
+    _io = io
+}
 
 export async function newMatchHandler(payload) {
     const socket = this
@@ -11,7 +15,8 @@ export async function newMatchHandler(payload) {
     const pendingMatch = await Match.findOne({ where: { ispending: true, difficulty: payload["difficulty"] } })
 
     if (pendingMatch == null) {
-        const m = await addPendingMatch(requesting_userid, this.id, payload["difficulty"])
+        const m = await addPendingMatch(requesting_userid, payload["difficulty"])
+        socket.join(m.roomid)
         setTimeout(async () => {
             if ((await m.reload()).ispending) {
                 socket.emit(MATCH_FAIL)
@@ -20,10 +25,9 @@ export async function newMatchHandler(payload) {
         }, MATCH_TIMEOUT * 1000)
         socket.emit(MATCH_START, { timeout: MATCH_TIMEOUT })
     } else {
-        pendingMatch.completePendingMatch(requesting_userid, this.id)
-        // Emit to the pair
-        socket.to(pendingMatch.userid1_sockid).emit(MATCH_SUCCESS, pendingMatch.roomid)
-        socket.emit(MATCH_SUCCESS, pendingMatch.roomid)
+        pendingMatch.completePendingMatch(requesting_userid)
+        socket.join(pendingMatch.roomid)
+        _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, pendingMatch.roomid)
     }
 }
 
