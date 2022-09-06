@@ -1,9 +1,7 @@
-import LoginPage from './pages/LoginPage/LoginPage';
+import Router from "~/components/Router";
 
 function App() {
-  return (
-    <LoginPage />
-  );
+  return <Router />;
 }
 
 export default App;
