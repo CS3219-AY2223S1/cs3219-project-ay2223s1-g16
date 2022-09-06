@@ -1,4 +1,26 @@
-// Credit: Mateusz Rybczonec
+
+// ------------------------
+// Navigation Related Utils
+// ------------------------
+let curr_page = "select"
+const pages = {
+    "select": document.getElementById('selection-page'),
+    "loading": document.getElementById('loading-page'),
+    "found": document.getElementById('match-found-page'),
+}
+
+export function switch_page(name, roomid = undefined) {
+    if (curr_page == name) return
+    pages[curr_page].style.display = 'none'
+    pages[name].style.display = 'block'
+    curr_page = name
+    if (curr_page == 'found') document.getElementById('roomid').innerHTML = roomid
+}
+
+
+// ------------------------
+// Timer Related Utils
+// ------------------------
 
 const FULL_DASH_ARRAY = 283;
 const WARNING_THRESHOLD = 10;
@@ -23,6 +45,23 @@ let timeLeft = TIME_LIMIT;
 let timerInterval = null;
 let remainingPathColor = COLOR_CODES.info.color;
 let timePassed = 0;
+
+export function startTimer(timeout) {
+  init(timeout)
+  timerInterval = setInterval(() => {
+    timePassed = timePassed += 1;
+    timeLeft = TIME_LIMIT - timePassed;
+    document.getElementById("base-timer-label").innerHTML = formatTime(
+      timeLeft
+    );
+    setCircleDasharray();
+    setRemainingPathColor(timeLeft);
+
+    if (timeLeft === 0) {
+      onTimesUp();
+    }
+  }, 1000);
+}
 
 function init(timeout) {
   TIME_LIMIT = timeout
@@ -58,23 +97,6 @@ function init(timeout) {
 
 function onTimesUp() {
   clearInterval(timerInterval);
-}
-
-export function startTimer(timeout) {
-  init(timeout)
-  timerInterval = setInterval(() => {
-    timePassed = timePassed += 1;
-    timeLeft = TIME_LIMIT - timePassed;
-    document.getElementById("base-timer-label").innerHTML = formatTime(
-      timeLeft
-    );
-    setCircleDasharray();
-    setRemainingPathColor(timeLeft);
-
-    if (timeLeft === 0) {
-      onTimesUp();
-    }
-  }, 1000);
 }
 
 function formatTime(time) {

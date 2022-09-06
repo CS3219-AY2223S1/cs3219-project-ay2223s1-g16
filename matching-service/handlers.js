@@ -1,34 +1,37 @@
 import { addPendingMatch, Match, removeMatch } from './repository.js'
 import { MATCH_FAIL, MATCH_SUCCESS, MATCH_START } from './public/events.js'
 
+// TODO: Shift into constants file
 const MATCH_TIMEOUT = 30
+
 let _io = undefined;
 export function setIo(io) {
     _io = io
 }
 
-export async function newMatchHandler(payload) {
+export async function newMatchHandler({userid, difficulty}) {
     const socket = this
-    const requesting_userid = payload['userid']
-    socket.userid = requesting_userid
+    socket.userid = userid
 
-    const pendingMatch = await Match.findOne({ where: { ispending: true, difficulty: payload["difficulty"] } })
+    const pendingMatch = await Match.findOne({ where: { ispending: true, difficulty: difficulty } })
 
     if (pendingMatch == null) {
-        const m = await addPendingMatch(requesting_userid, payload["difficulty"])
+        const m = await addPendingMatch(userid, difficulty)
         socket.join(m.roomid)
+        socket.emit(MATCH_START, { timeout: MATCH_TIMEOUT })
+
+        // Server-side Timer logic
         setTimeout(async () => {
             await m.reload()
                 .catch(()=> undefined) // undefined if not found
             
             if (m != undefined && m.ispending) {
                 socket.emit(MATCH_FAIL)
-                removeMatch(requesting_userid)
+                removeMatch(userid)
             }
         }, MATCH_TIMEOUT * 1000)
-        socket.emit(MATCH_START, { timeout: MATCH_TIMEOUT })
     } else {
-        pendingMatch.completePendingMatch(requesting_userid)
+        pendingMatch.completePendingMatch(userid)
         socket.join(pendingMatch.roomid)
         _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, pendingMatch.roomid)
     }
@@ -46,7 +49,7 @@ export async function disconnectHandler() {
     if (socket.userid == undefined) return
     const roomids = await removeMatch(socket.userid)
     console.log(roomids)
-    // TODO: Iterating through all rooms including partial matches
+    // TODO: Iterating through all rooms including partial matches, possible optimization.
     roomids.forEach(rid => {
         console.log(rid)
         _io.to(rid).emit(MATCH_FAIL)
