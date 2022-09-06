@@ -1,3 +1,5 @@
-export const NEW_MATCH_REQUEST = "match:new"
-export const CANCEL_MATCH_REQUEST = "match:cancel"
-export const MATCH_FOUND = "match:found"
+export const MATCH_REQUEST_NEW = "match:new"
+export const MATCH_REQUEST_CANCEL = "match:cancel"
+export const MATCH_SUCCESS = "match:success"
+export const MATCH_FAIL = "match:failed"
+export const MATCH_START = "match:start"
