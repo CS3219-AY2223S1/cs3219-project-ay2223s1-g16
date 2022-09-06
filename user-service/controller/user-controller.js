@@ -1,6 +1,7 @@
 import {
   ormCreateUser as _createUser,
   ormIsUserExist as _checkUserExist,
+  ormLoginUser as _loginUser,
 } from "../model/user-orm.js";
 
 export async function createUser(req, res) {
@@ -11,12 +12,12 @@ export async function createUser(req, res) {
       const isUserExist = await _checkUserExist(username);
 
       if (isUserExist.err) {
-        return res
-          .status(500)
-          .json({ message: "Database failure when creating new user!" });
+        return res.status(500).json({
+          message: "Database failure when creating new user!",
+        });
       }
 
-      if (isUserExist) {
+      if (isUserExist.success) {
         return res.status(400).json({
           message:
             "Username already exists, please login or use a different username",
@@ -43,5 +44,28 @@ export async function createUser(req, res) {
     return res
       .status(500)
       .json({ message: "Database failure when creating new user!" });
+  }
+}
+
+export async function loginUser(req, res) {
+  try {
+    const { username, password } = req.body;
+    const resp = await _loginUser(username, password);
+    if (resp?.err) {
+      return res
+        .status(500)
+        .json({ message: "Database failure when attempting to login!" });
+    }
+    if (resp.success) {
+      const token = resp.token;
+      res.cookie("token", token, { httpOnly: true });
+      return res.json({ token });
+    } else {
+      return res.status(401).json({ message: resp.message });
+    }
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Database failure when attempting to login!" });
   }
 }

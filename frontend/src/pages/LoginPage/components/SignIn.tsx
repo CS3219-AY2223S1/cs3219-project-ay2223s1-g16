@@ -11,6 +11,8 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 import { useForm } from "react-hook-form";
 
+import { userSvcClient } from "~/utils/request";
+
 const MIN_LENGTH = 1;
 const MAX_LENGTH = 64;
 
@@ -34,16 +36,18 @@ export const SignIn = () => {
   });
 
   const onSubmitHandler = async (values: FormValues) => {
-    const { username, password } = values;
-    console.log(username, password);
     try {
-      await new Promise((r) => setTimeout(r, 1000));
-      // throw new Error("Oops");
-      // Redirect to next page
-    } catch (e) {
-      console.log("Catch async error");
+      const response = await userSvcClient.post("/login", values);
+      console.log(response);
       toast({
-        title: "Something went wrong, please try again",
+        title: "Successfully logged in",
+        status: "success",
+        isClosable: true,
+      });
+    } catch (err: any) {
+      const message = err?.response?.data?.message;
+      toast({
+        title: message ?? "Something went wrong",
         status: "error",
         isClosable: true,
       });

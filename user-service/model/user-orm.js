@@ -1,6 +1,9 @@
 import bcrypt from "bcrypt";
 
-import { createUser, isUserExist } from "./repository.js";
+import { createUser, isUserExist, getUser } from "./repository.js";
+
+import jwtPackage from "jsonwebtoken";
+const { sign } = jwtPackage;
 
 const SALT_ROUNDS = 8;
 
@@ -20,9 +23,30 @@ export async function ormCreateUser(username, password) {
 export async function ormIsUserExist(username) {
   try {
     const result = await isUserExist(username);
-    return result;
+    if (result === null) {
+      return { success: false };
+    }
+    return { success: true };
   } catch (err) {
     console.log("ERROR: Could not check that user exists");
+    return { err };
+  }
+}
+
+export async function ormLoginUser(username, password) {
+  try {
+    const findUser = await getUser(username);
+    if (findUser === null) {
+      return { success: false, message: "Username does not exist" };
+    }
+    const isPasswordEqual = await bcrypt.compare(password, findUser.password);
+    if (isPasswordEqual) {
+      const token = sign(findUser.toObject(), process.env.JWT_KEY);
+      return { success: true, token: token };
+    }
+    return { success: false, message: "Password is incorrect" };
+  } catch (err) {
+    console.log(`ERROR: Failed to retrieve user.\n${err}`);
     return { err };
   }
 }
