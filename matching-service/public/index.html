@@ -14,14 +14,14 @@
 </div>
 
 <div id="loading-page" style="display:none">
-    <h1>Finding Match...</h1>
-    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    <h1 style="text-align: center;">Finding Match</h1>
+    <div id="timer"></div>
 </div>
 
 <div id="match-found-page" style="display:none">
     <h1>Found Match</h1>
-    <p>You'll be working with <span id="partnerid"></span></p>
+    <p>You'll be working in roomid <span id="roomid"></span></p>
 </div>
 <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./styles.css">
-<script src='./client.js' type="module"></script>
+<script src='./main.js' type="module"></script>

@@ -2,6 +2,11 @@ import { Sequelize, Model, DataTypes } from 'sequelize';
 
 const sequelize = new Sequelize('sqlite::memory:');
 export const Match = sequelize.define('Match', {
+    roomid: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     userid1: DataTypes.UUID,
     userid1_sockid: DataTypes.TEXT,
     userid2: DataTypes.UUID,
