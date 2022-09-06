@@ -10,6 +10,12 @@ export async function createUser(req, res) {
     if (username && password) {
       const isUserExist = await _checkUserExist(username);
 
+      if (isUserExist.err) {
+        return res
+          .status(500)
+          .json({ message: "Database failure when creating new user!" });
+      }
+
       if (isUserExist) {
         return res.status(400).json({
           message:
