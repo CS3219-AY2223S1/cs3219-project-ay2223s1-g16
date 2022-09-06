@@ -50,9 +50,9 @@ export const SignUp = () => {
       });
       reset();
     } catch (err: any) {
-      const { message } = err.response.data;
+      const message = err?.response?.data?.message;
       toast({
-        title: message,
+        title: message ?? "Something went wrong",
         status: "error",
         isClosable: true,
       });
