@@ -29,6 +29,7 @@ export const SignUp = () => {
   };
 
   const {
+    reset,
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -45,8 +46,9 @@ export const SignUp = () => {
       const response = await userSvcClient.post("", values);
       const { message } = response.data;
       toast({
-        title: message,
+        title: message + "Please login to continue.",
       });
+      reset();
     } catch (err: any) {
       const { message } = err.response.data;
       toast({
