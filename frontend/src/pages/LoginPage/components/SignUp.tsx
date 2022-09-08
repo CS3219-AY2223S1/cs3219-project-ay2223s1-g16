@@ -46,7 +46,7 @@ export const SignUp = () => {
       const response = await userSvcClient.post("", values);
       const { message } = response.data;
       toast({
-        title: message + "Please login to continue.",
+        title: message + " Please login to continue.",
       });
       reset();
     } catch (err: any) {

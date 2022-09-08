@@ -21,3 +21,7 @@ export async function createUser(params) {
 export async function isUserExist(username) {
   return UserModel.exists({ username: username });
 }
+
+export async function getUser(username) {
+  return UserModel.findOne({ username: username });
+}
