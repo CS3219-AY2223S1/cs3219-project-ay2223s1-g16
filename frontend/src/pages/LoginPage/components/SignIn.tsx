@@ -10,7 +10,9 @@ import {
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
+import useUserStore from "~/store/userStore";
 import { userSvcClient } from "~/utils/request";
 
 const MIN_LENGTH = 1;
@@ -18,6 +20,8 @@ const MAX_LENGTH = 64;
 
 export const SignIn = () => {
   const toast = useToast();
+  const navigate = useNavigate();
+  const zustandLogin = useUserStore((state) => state.login);
 
   type FormValues = {
     username: string;
@@ -38,12 +42,14 @@ export const SignIn = () => {
   const onSubmitHandler = async (values: FormValues) => {
     try {
       const response = await userSvcClient.post("/login", values);
-      console.log(response);
+      const { userId } = response.data;
       toast({
         title: "Successfully logged in",
         status: "success",
         isClosable: true,
       });
+      zustandLogin(userId);
+      navigate("/home", { replace: true });
     } catch (err: any) {
       const message = err?.response?.data?.message;
       toast({
