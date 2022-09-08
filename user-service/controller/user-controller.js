@@ -57,9 +57,9 @@ export async function loginUser(req, res) {
         .json({ message: "Database failure when attempting to login!" });
     }
     if (resp.success) {
-      const token = resp.token;
+      const { token, userId } = resp;
       res.cookie("token", token, { httpOnly: true });
-      return res.json({ token });
+      return res.json({ token, userId });
     } else {
       return res.status(401).json({ message: resp.message });
     }
