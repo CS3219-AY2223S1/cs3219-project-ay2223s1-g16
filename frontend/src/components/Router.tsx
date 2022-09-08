@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Layout from "~/components/Layout";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import HomePage from "~/pages/HomePage/HomePage";
-import Layout from "~/components/Layout";
+import NotFoundPage from "~/pages/NotFoundPage";
 
 const Router = () => {
   return (
@@ -12,6 +13,7 @@ const Router = () => {
         <Route element={<Layout />}>
           <Route path="/home" element={<HomePage />} />
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
