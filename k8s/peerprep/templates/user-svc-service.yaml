@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "peerprep.user_svc.name" . }}-svc
+  name: {{ include "peerprep.user_svc.name" . }}
   labels:
     {{- include "peerprep.user_svc.labels" . | nindent 4 }}
 spec:
