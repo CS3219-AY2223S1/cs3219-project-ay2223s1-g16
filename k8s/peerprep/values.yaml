@@ -11,7 +11,7 @@ frontend:
 
     ports:
       name: frontend-http
-      containerPort: 8000
+      containerPort: 8080
 
   service:
     type: ClusterIP
@@ -26,8 +26,8 @@ user_svc:
       tag: latest
 
     ports:
-      name: user-svc-http
-      containerPort: 8000
+      name: user-svc
+      containerPort: 8080
 
   service:
     type: ClusterIP
@@ -42,8 +42,8 @@ matching_svc:
       tag: latest
 
     ports:
-      name: matching-svc-http
-      containerPort: 8000
+      name: matching-svc
+      containerPort: 8080
 
   service:
     type: ClusterIP
