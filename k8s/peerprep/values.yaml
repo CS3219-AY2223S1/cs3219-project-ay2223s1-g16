@@ -1,0 +1,50 @@
+ingress:
+  enabled: false
+
+frontend:
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1
+      tag: latest
+
+    ports:
+      name: frontend-http
+      containerPort: 8000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+user_svc:
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1
+      tag: latest
+
+    ports:
+      name: user-svc-http
+      containerPort: 8000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+matching_svc:
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1
+      tag: latest
+
+    ports:
+      name: matching-svc-http
+      containerPort: 8000
+
+  service:
+    type: ClusterIP
+    port: 80

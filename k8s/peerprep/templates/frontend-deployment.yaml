@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "peerprep.frontend.name" . }}
+  labels: {{- include "peerprep.frontend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "peerprep.frontend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "peerprep.frontend.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "peerprep.frontend.name" . }}
+          image: {{ .Values.frontend.deployment.image.repository }}:{{ .Values.frontend.deployment.image.tag | default .Chart.AppVersion }}
+          ports:
+            - name: {{ .Values.frontend.deployment.ports.name }}
+              containerPort: {{ .Values.frontend.deployment.ports.containerPort }}
+              protocol: TCP
