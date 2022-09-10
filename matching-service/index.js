@@ -16,7 +16,9 @@ app.options('*', cors())
 // App Handlers
 app.use(express.static('public'))
 const httpServer = createServer(app)
-const io = new Server(httpServer, { /* options */ });
+const io = new Server(httpServer, {cors: {
+    origin: "*"
+}});
 setIo(io)
 io.on("connection", (socket) => {
     socket.on(MATCH_REQUEST_NEW, newMatchHandler)

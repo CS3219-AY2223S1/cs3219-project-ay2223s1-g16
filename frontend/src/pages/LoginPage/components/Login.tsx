@@ -8,15 +8,15 @@ export const Login = () => {
   return (
     <Tabs isFitted sx={{ minH: 466 }}>
       <TabList>
-        <Tab>Sign Up</Tab>
         <Tab>Sign In</Tab>
+        <Tab>Sign Up</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
-          <SignUp />
+          <SignIn />
         </TabPanel>
         <TabPanel>
-          <SignIn />
+          <SignUp />
         </TabPanel>
       </TabPanels>
     </Tabs>

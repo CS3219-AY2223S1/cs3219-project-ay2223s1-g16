@@ -4,10 +4,6 @@ const userSvcAxiosClient = axios.create({
   baseURL: "http://localhost:8000/api/user/",
 });
 
-const matchingSvcAxiosClient = axios.create({
-  baseURL: "http://localhost:5000/api/match/",
-});
-
 const requests = (api: any) => {
   return {
     get: (url: string) => {
@@ -41,5 +37,4 @@ const requests = (api: any) => {
 };
 
 const userSvcClient = requests(userSvcAxiosClient);
-const matchingSvcClient = requests(matchingSvcAxiosClient);
-export { userSvcClient, matchingSvcClient };
+export { userSvcClient };
