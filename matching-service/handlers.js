@@ -33,7 +33,7 @@ export async function newMatchHandler({userid, difficulty}) {
     } else {
         pendingMatch.completePendingMatch(userid)
         socket.join(pendingMatch.roomid)
-        _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, pendingMatch.roomid)
+        _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, { roomId: pendingMatch.roomid, userIdOne: pendingMatch.userid1, userIdTwo: pendingMatch.userid2})
     }
 }
 

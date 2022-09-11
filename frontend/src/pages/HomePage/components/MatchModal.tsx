@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { io, Socket } from "socket.io-client";
 import {
   Button,
   Modal,
@@ -7,13 +9,19 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  useToast,
 } from "@chakra-ui/react";
 import { RepeatClockIcon } from "@chakra-ui/icons";
-import { io, Socket } from "socket.io-client";
 
 import useUserStore from "~/store/userStore";
+import useMatchStore from "~/store/matchStore";
 import Timer from "./Timer";
-import { MATCH_START, MATCH_REQUEST_NEW, MATCH_FAIL } from "../constants";
+import {
+  MATCH_START,
+  MATCH_REQUEST_NEW,
+  MATCH_FAIL,
+  MATCH_SUCCESS,
+} from "../constants";
 
 const MatchModal = ({
   isOpen,
@@ -24,9 +32,12 @@ const MatchModal = ({
   difficulty: string;
   onClose: () => void;
 }) => {
+  const toast = useToast();
+  const navigate = useNavigate();
   const loggedInUserId = useUserStore((state) => state.userId);
+  const newMatchState = useMatchStore((state) => state.newMatchState);
   const [initialTime, setInitialTime] = useState(0);
-  const [socket, setSocket] = useState<Socket | null>(null); // TODO: put in global store if needed in future pages
+  const [socket, setSocket] = useState<Socket | null>(null); // TODO? put in global store if needed in code page
 
   useEffect(() => {
     if (isOpen) {
@@ -38,6 +49,8 @@ const MatchModal = ({
       });
     }
   }, [isOpen]);
+
+  const navigateToCodePage = () => navigate("/code");
 
   const retryHandler = () => {
     socket?.emit(MATCH_REQUEST_NEW, {
@@ -57,6 +70,23 @@ const MatchModal = ({
   );
 
   socket?.on(MATCH_FAIL, () => setInitialTime(0));
+
+  socket?.on(
+    MATCH_SUCCESS,
+    ({
+      roomId,
+      userIdOne,
+      userIdTwo,
+    }: {
+      roomId: number;
+      userIdOne: string;
+      userIdTwo: string;
+    }) => {
+      const otherUserId = userIdOne === loggedInUserId ? userIdTwo : userIdOne;
+      newMatchState(roomId, otherUserId);
+      navigateToCodePage();
+    }
+  );
 
   return (
     <Modal isCentered isOpen={isOpen} onClose={closeModal}>
