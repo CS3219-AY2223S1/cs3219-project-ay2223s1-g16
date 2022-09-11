@@ -3,7 +3,7 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from "socket.io";
 import { newMatchHandler, disconnectHandler, leaveMatchHandler, setIo } from './handlers.js';
-import { MATCH_LEAVE, MATCH_REQUEST_NEW } from './public/events.js';
+import { MATCH_LEAVE, MATCH_REQUEST_NEW } from './events.js';
 
 const app = express();
 
@@ -14,7 +14,6 @@ app.use(cors()) // config cors so that front-end can use
 app.options('*', cors())
 
 // App Handlers
-app.use(express.static('public'))
 const httpServer = createServer(app)
 const io = new Server(httpServer, {cors: {
     origin: "*"
