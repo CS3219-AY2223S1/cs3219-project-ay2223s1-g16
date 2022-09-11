@@ -1,5 +1,5 @@
 import { addPendingMatch, Match, removeMatch } from './repository.js'
-import { MATCH_FAIL, MATCH_SUCCESS, MATCH_START } from './public/events.js'
+import { MATCH_FAIL, MATCH_SUCCESS, MATCH_START } from './events.js'
 
 // TODO: Shift into constants file
 const MATCH_TIMEOUT = 30
@@ -33,7 +33,7 @@ export async function newMatchHandler({userid, difficulty}) {
     } else {
         pendingMatch.completePendingMatch(userid)
         socket.join(pendingMatch.roomid)
-        _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, pendingMatch.roomid)
+        _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, { roomId: pendingMatch.roomid, userIdOne: pendingMatch.userid1, userIdTwo: pendingMatch.userid2})
     }
 }
 
@@ -48,10 +48,8 @@ export async function disconnectHandler() {
     const socket = this
     if (socket.userid == undefined) return
     const roomids = await removeMatch(socket.userid)
-    console.log(roomids)
     // TODO: Iterating through all rooms including partial matches, possible optimization.
     roomids.forEach(rid => {
-        console.log(rid)
         _io.to(rid).emit(MATCH_FAIL)
     })
 }

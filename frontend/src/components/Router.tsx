@@ -1,9 +1,16 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 
 import useUserStore from "~/store/userStore";
 import Layout from "~/components/Layout";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import HomePage from "~/pages/HomePage/HomePage";
+import RoomPage from "~/pages/RoomPage/RoomPage";
 import NotFoundPage from "~/pages/NotFoundPage";
 
 // Helper Component
@@ -23,9 +30,10 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route element=<PrivateRoute />>
+        <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
-              <Route path="/home" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/room" element={<RoomPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
