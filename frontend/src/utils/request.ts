@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const userSvcAxiosClient = axios.create({
-  baseURL: "http://localhost:8000/api/user/",
+  baseURL: import.meta.env.VITE_USER_SVC_URL,
 });
 
 const requests = (api: any) => {
