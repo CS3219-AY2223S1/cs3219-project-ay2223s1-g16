@@ -59,7 +59,7 @@ export async function loginUser(req, res) {
     if (resp.success) {
       const { token, userId } = resp;
       res.cookie("token", token, { httpOnly: true });
-      return res.json({ token, userId });
+      return res.json({ token, userId, username });
     } else {
       return res.status(401).json({ message: resp.message });
     }

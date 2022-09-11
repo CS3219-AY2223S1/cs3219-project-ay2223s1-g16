@@ -42,13 +42,13 @@ export const SignIn = () => {
   const onSubmitHandler = async (values: FormValues) => {
     try {
       const response = await userSvcClient.post("/login", values);
-      const { userId } = response.data;
+      const { userId, username } = response.data;
       toast({
         title: "Successfully logged in",
         status: "success",
         isClosable: true,
       });
-      zustandLogin(userId);
+      zustandLogin(userId, username);
       navigate("/home", { replace: true });
     } catch (err: any) {
       const message = err?.response?.data?.message;
