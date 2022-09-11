@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 
 import useUserStore from "~/store/userStore";
 import Layout from "~/components/Layout";
@@ -24,10 +30,10 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route element=<PrivateRoute />>
+        <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/room" element={<RoomPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/room" element={<RoomPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
