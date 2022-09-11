@@ -9,8 +9,8 @@ export const Match = sequelize.define('Match', {
         autoIncrement: true,
         primaryKey: true
     },
-    username1: DataTypes.UUID,
-    username2: DataTypes.UUID,
+    username1: DataTypes.STRING,
+    username2: DataTypes.STRING,
     difficulty: DataTypes.STRING,
     ispending: DataTypes.BOOLEAN
 });
