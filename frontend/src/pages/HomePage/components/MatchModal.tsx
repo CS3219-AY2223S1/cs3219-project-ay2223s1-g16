@@ -9,7 +9,6 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  useToast,
 } from "@chakra-ui/react";
 import { RepeatClockIcon } from "@chakra-ui/icons";
 
@@ -32,9 +31,8 @@ const MatchModal = ({
   difficulty: string;
   onClose: () => void;
 }) => {
-  const toast = useToast();
   const navigate = useNavigate();
-  const loggedInUserId = useUserStore((state) => state.userId);
+  const loggedInUsername = useUserStore((state) => state.username);
   const newMatchState = useMatchStore((state) => state.newMatchState);
   const [initialTime, setInitialTime] = useState(0);
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -44,7 +42,7 @@ const MatchModal = ({
       const clientSocket = io("http://localhost:8001"); //TODO: replace with env variable
       setSocket(clientSocket);
       clientSocket?.emit(MATCH_REQUEST_NEW, {
-        userid: loggedInUserId,
+        username: loggedInUsername,
         difficulty,
       });
     }
@@ -54,7 +52,7 @@ const MatchModal = ({
 
   const retryHandler = () => {
     socket?.emit(MATCH_REQUEST_NEW, {
-      userid: loggedInUserId,
+      username: loggedInUsername,
       difficulty,
     });
   };
@@ -75,14 +73,15 @@ const MatchModal = ({
     MATCH_SUCCESS,
     ({
       roomId,
-      userIdOne,
-      userIdTwo,
+      usernameOne,
+      usernameTwo,
     }: {
       roomId: number;
-      userIdOne: string;
-      userIdTwo: string;
+      usernameOne: string;
+      usernameTwo: string;
     }) => {
-      const otherUserId = userIdOne === loggedInUserId ? userIdTwo : userIdOne;
+      const otherUserId =
+        usernameOne === loggedInUsername ? usernameTwo : usernameOne;
       newMatchState(roomId, otherUserId, socket);
       navigateToRoomPage();
     }

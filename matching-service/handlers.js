@@ -9,14 +9,14 @@ export function setIo(io) {
     _io = io
 }
 
-export async function newMatchHandler({userid, difficulty}) {
+export async function newMatchHandler({username, difficulty}) {
     const socket = this
-    socket.userid = userid
+    socket.username = username
 
     const pendingMatch = await Match.findOne({ where: { ispending: true, difficulty: difficulty } })
 
     if (pendingMatch == null) {
-        const m = await addPendingMatch(userid, difficulty)
+        const m = await addPendingMatch(username, difficulty)
         socket.join(m.roomid)
         socket.emit(MATCH_START, { timeout: MATCH_TIMEOUT })
 
@@ -27,13 +27,13 @@ export async function newMatchHandler({userid, difficulty}) {
             
             if (m != undefined && m.ispending) {
                 socket.emit(MATCH_FAIL)
-                removeMatch(userid)
+                removeMatch(username)
             }
         }, MATCH_TIMEOUT * 1000)
     } else {
-        pendingMatch.completePendingMatch(userid)
+        pendingMatch.completePendingMatch(username)
         socket.join(pendingMatch.roomid)
-        _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, { roomId: pendingMatch.roomid, userIdOne: pendingMatch.userid1, userIdTwo: pendingMatch.userid2})
+        _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, { roomId: pendingMatch.roomid, usernameOne: pendingMatch.username1, usernameTwo: pendingMatch.username2})
     }
 }
 
@@ -46,8 +46,8 @@ export async function leaveMatchHandler({ roomid }) {
 
 export async function disconnectHandler() {
     const socket = this
-    if (socket.userid == undefined) return
-    const roomids = await removeMatch(socket.userid)
+    if (socket.username == undefined) return
+    const roomids = await removeMatch(socket.username)
     // TODO: Iterating through all rooms including partial matches, possible optimization.
     roomids.forEach(rid => {
         _io.to(rid).emit(MATCH_FAIL)

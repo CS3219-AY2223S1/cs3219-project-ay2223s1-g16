@@ -42,7 +42,12 @@ export async function ormLoginUser(username, password) {
     const isPasswordEqual = await bcrypt.compare(password, findUser.password);
     if (isPasswordEqual) {
       const token = sign(findUser.toObject(), process.env.JWT_KEY);
-      return { success: true, token: token, userId: findUser._id };
+      return {
+        success: true,
+        token: token,
+        userId: findUser._id,
+        username: findUser.username,
+      };
     }
     return { success: false, message: "Password is incorrect" };
   } catch (err) {
