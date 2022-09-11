@@ -15,7 +15,12 @@ const useUserStore = create<UserState>((set) => ({
   login: (userId: string, username: string) =>
     set((state) => ({ ...state, isAuthenticated: true, userId, username })),
   logout: () =>
-    set((state) => ({ ...state, isAuthenticated: false, userId: "" })),
+    set((state) => ({
+      ...state,
+      isAuthenticated: false,
+      userId: "",
+      username: "",
+    })),
 }));
 
 export default useUserStore;
