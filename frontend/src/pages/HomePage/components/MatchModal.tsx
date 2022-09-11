@@ -15,13 +15,13 @@ import { RepeatClockIcon } from "@chakra-ui/icons";
 
 import useUserStore from "~/store/userStore";
 import useMatchStore from "~/store/matchStore";
-import Timer from "./Timer";
 import {
   MATCH_START,
   MATCH_REQUEST_NEW,
   MATCH_FAIL,
   MATCH_SUCCESS,
-} from "../constants";
+} from "~/constants";
+import Timer from "./Timer";
 
 const MatchModal = ({
   isOpen,
@@ -37,7 +37,7 @@ const MatchModal = ({
   const loggedInUserId = useUserStore((state) => state.userId);
   const newMatchState = useMatchStore((state) => state.newMatchState);
   const [initialTime, setInitialTime] = useState(0);
-  const [socket, setSocket] = useState<Socket | null>(null); // TODO? put in global store if needed in code page
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -83,7 +83,7 @@ const MatchModal = ({
       userIdTwo: string;
     }) => {
       const otherUserId = userIdOne === loggedInUserId ? userIdTwo : userIdOne;
-      newMatchState(roomId, otherUserId);
+      newMatchState(roomId, otherUserId, socket);
       navigateToRoomPage();
     }
   );
