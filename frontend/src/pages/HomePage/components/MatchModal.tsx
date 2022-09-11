@@ -50,7 +50,7 @@ const MatchModal = ({
     }
   }, [isOpen]);
 
-  const navigateToCodePage = () => navigate("/code");
+  const navigateToRoomPage = () => navigate("/room");
 
   const retryHandler = () => {
     socket?.emit(MATCH_REQUEST_NEW, {
@@ -84,7 +84,7 @@ const MatchModal = ({
     }) => {
       const otherUserId = userIdOne === loggedInUserId ? userIdTwo : userIdOne;
       newMatchState(roomId, otherUserId);
-      navigateToCodePage();
+      navigateToRoomPage();
     }
   );
 
