@@ -1,3 +1,4 @@
+{{- if .Values.frontend.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -10,6 +11,7 @@ spec:
     - port: {{ .Values.frontend.service.port }}
       targetPort: {{ .Values.frontend.deployment.ports.name }}
       protocol: TCP
-      name: http
+      name: {{ .Values.frontend.deployment.ports.name }}
   selector:
     {{- include "peerprep.frontend.selectorLabels" . | nindent 4 }}
+{{- end }}

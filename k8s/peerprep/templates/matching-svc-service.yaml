@@ -1,3 +1,4 @@
+{{- if .Values.matching_svc.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -10,6 +11,7 @@ spec:
     - port: {{ .Values.matching_svc.service.port }}
       targetPort: {{ .Values.matching_svc.deployment.ports.name }}
       protocol: TCP
-      name: http
+      name: {{ .Values.matching_svc.deployment.ports.name }}
   selector:
     {{- include "peerprep.matching_svc.selectorLabels" . | nindent 4 }}
+{{- end }}

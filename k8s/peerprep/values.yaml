@@ -1,7 +1,35 @@
 ingress:
-  enabled: false
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+  hosts:
+    paths:
+      - path: /api/user
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-user-svc
+            port:
+              name: user-svc
+      - path: /api/match
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-matching-svc
+            port:
+              name: matching-svc
+      # - path: /api/fe
+      #   pathType: Exact
+      #   backend:
+      #     service:
+      #       name: peerprep-frontend
+      #       port:
+      #         name: frontend-http
 
 frontend:
+  enabled: false
   replicaCount: 3
 
   deployment:
@@ -18,6 +46,7 @@ frontend:
     port: 80
 
 user_svc:
+  enabled: true
   replicaCount: 3
 
   deployment:
@@ -34,6 +63,7 @@ user_svc:
     port: 80
 
 matching_svc:
+  enabled: true
   replicaCount: 3
 
   deployment:
