@@ -2,6 +2,8 @@ import {
   ormCreateUser as _createUser,
   ormIsUserExist as _checkUserExist,
   ormLoginUser as _loginUser,
+  ormDeleteUser as _deleteUser,
+  ormChangePassword as _changePassword,
 } from "../model/user-orm.js";
 
 export async function createUser(req, res) {
@@ -67,5 +69,55 @@ export async function loginUser(req, res) {
     return res
       .status(500)
       .json({ message: "Database failure when attempting to login!" });
+  }
+}
+
+export async function deleteUser(req, res) {
+  try {
+    const { username } = req.body;
+    const resp = await _deleteUser(username);
+    if (resp?.err) {
+      return res
+        .status(500)
+        .json({ message: "Database failure when attempting to delete user!" });
+    }
+    return res
+      .status(200)
+      .json({ message: `Deleted user ${username} successfully!` });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Database failure when attempting to delete user!" });
+  }
+}
+
+export async function changePassword(req, res) {
+  try {
+    const { username, password } = req.body;
+    const resp = _changePassword(username, password);
+    if (resp?.err) {
+      return res
+        .status(500)
+        .json({
+          message: "Database failure when attempting to update user password!",
+        });
+    }
+    if (resp.success) {
+      return res
+        .status(200)
+        .json({ message: `Updated user ${username} password successfully!` });
+    } else {
+      return res
+        .status(500)
+        .json({
+          message: "Database failure when attempting to update user password!",
+        });
+    }
+  } catch (err) {
+    return res
+      .status(500)
+      .json({
+        message: "Database failure when attempting to update user password!",
+      });
   }
 }

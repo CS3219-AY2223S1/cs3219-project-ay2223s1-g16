@@ -15,7 +15,12 @@ app.use(
   })
 );
 
-import { createUser, loginUser } from "./controller/user-controller.js";
+import {
+  createUser,
+  loginUser,
+  deleteUser,
+  changePassword,
+} from "./controller/user-controller.js";
 
 const router = express.Router();
 
@@ -23,6 +28,8 @@ const router = express.Router();
 router.get("/", (_, res) => res.send("Hello World from user-service"));
 router.post("/", createUser);
 router.post("/login", loginUser);
+router.post("/delete", deleteUser);
+router.post("/password", changePassword);
 
 app.use("/api/user", router).all((_, res) => {
   res.setHeader("content-type", "application/json");

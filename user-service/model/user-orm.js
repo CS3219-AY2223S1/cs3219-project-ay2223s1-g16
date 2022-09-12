@@ -1,6 +1,12 @@
 import bcrypt from "bcrypt";
 
-import { createUser, isUserExist, getUser } from "./repository.js";
+import {
+  createUser,
+  isUserExist,
+  getUser,
+  deleteUser,
+  changePassword,
+} from "./repository.js";
 
 import jwtPackage from "jsonwebtoken";
 const { sign } = jwtPackage;
@@ -51,7 +57,31 @@ export async function ormLoginUser(username, password) {
     }
     return { success: false, message: "Password is incorrect" };
   } catch (err) {
-    console.log(`ERROR: Failed to retrieve user.\n${err}`);
+    console.log(`ERROR: Failed to retrieve user.`);
+    return { err };
+  }
+}
+
+export async function ormDeleteUser(username) {
+  try {
+    const { deletedCount } = await deleteUser(username);
+    return { success: true, message: `Deleted ${username} user.` };
+  } catch (err) {
+    console.log(`ERROR: Failed to delete user.`);
+    return { err };
+  }
+}
+
+export async function ormChangePassword(username, password) {
+  try {
+    const { acknowledged } = await changePassword(username, password);
+    if (acknowledged) {
+      return { success: true, message: "Successfully updated password" };
+    } else {
+      return { success: false, message: "Failed to update password" };
+    }
+  } catch (err) {
+    console.log(`ERROR: Failed to update user password.`);
     return { err };
   }
 }
