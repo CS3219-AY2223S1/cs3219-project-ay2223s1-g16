@@ -5,6 +5,18 @@
 - [Managing Helm charts](https://cloud.google.com/artifact-registry/docs/helm/manage-charts)
 - [Storing docker images in artifact registry](https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images)
 
+## Debugging helm charts
+
+You can view the output of your helm chart template through using the make command:
+
+Go to the k8s directory:\
+
+`cd k8s`
+
+Run the make command:
+
+`make template`
+
 ## Push a helm chart to the Artifact Registry
 
 First get the key json file in your current directory. This can be done by downloading the key file from the service accounts on GCP under the IAM tab.
