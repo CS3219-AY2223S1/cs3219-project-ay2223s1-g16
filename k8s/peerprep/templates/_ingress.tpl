@@ -1,5 +1,5 @@
 {{/*
-    Name for the ingress resource
+Name for the ingress resource
 */}}
 {{- define "peerprep.ingress.name" -}}
 {{ include "peerprep.name" . }}-ingress

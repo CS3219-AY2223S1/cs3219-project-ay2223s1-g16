@@ -34,7 +34,7 @@ frontend:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
       tag: latest
 
     ports:
@@ -51,7 +51,7 @@ user_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
       tag: latest
 
     ports:
@@ -68,7 +68,7 @@ matching_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
       tag: latest
 
     ports:

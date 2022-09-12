@@ -1,5 +1,5 @@
 {{/*
-    Name for the matching_svc resources    
+Name for the matching_svc resources    
 */}}
 {{- define "peerprep.matching_svc.name" -}}
 {{ include "peerprep.name" . }}-matching-svc
