@@ -60,10 +60,25 @@ export const SignUp = () => {
   };
 
   const isInvalid = (field: string) => {
-    if (errors[field]) {
-      return true;
+    switch (field) {
+      case "password":
+        if (errors.password) {
+          return true;
+        }
+        return false;
+      case "username":
+        if (errors.passwordAgain) {
+          return true;
+        }
+        return false;
+      case "passwordAgain":
+        if (errors.password) {
+          return true;
+        }
+        return false;
+      default:
+        return false;
     }
-    return false;
   };
 
   return (
