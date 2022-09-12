@@ -1,0 +1,17 @@
+{{- if .Values.user_svc.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "peerprep.user_svc.name" . }}
+  labels:
+    {{- include "peerprep.user_svc.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.user_svc.service.type }}
+  ports:
+    - port: {{ .Values.user_svc.service.port }}
+      targetPort: {{ .Values.user_svc.deployment.ports.name }}
+      protocol: TCP
+      name: {{ .Values.user_svc.deployment.ports.name }}
+  selector:
+    {{- include "peerprep.user_svc.selectorLabels" . | nindent 4 }}
+{{- end }}
