@@ -39,7 +39,7 @@ const MatchModal = ({
 
   useEffect(() => {
     if (isOpen) {
-      const clientSocket = io("http://localhost:8001"); //TODO: replace with env variable
+      const clientSocket = io(import.meta.env.VITE_MATCHING_SVC_URL);
       setSocket(clientSocket);
       clientSocket?.emit(MATCH_REQUEST_NEW, {
         username: loggedInUsername,

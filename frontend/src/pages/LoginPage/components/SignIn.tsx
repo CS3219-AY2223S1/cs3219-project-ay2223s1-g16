@@ -9,7 +9,7 @@ import {
 
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-import { useForm } from "react-hook-form";
+import { FieldErrorsImpl, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import useUserStore from "~/store/userStore";
@@ -61,20 +61,14 @@ export const SignIn = () => {
   };
 
   const isInvalid = (field: string) => {
-    switch (field) {
-      case "password":
-        if (errors.password) {
-          return true;
-        }
-        return false;
-      case "username":
-        if (errors.username) {
-          return true;
-        }
-        return false;
-      default:
-        return false;
+    if (
+      errors[
+        field as keyof FieldErrorsImpl<{ username: string; password: string }>
+      ]
+    ) {
+      return true;
     }
+    return false;
   };
 
   return (
