@@ -2,7 +2,7 @@ import { addPendingMatch, Match, removeMatch } from "./repository.js";
 import { MATCH_FAIL, MATCH_SUCCESS, MATCH_START } from "./events.js";
 
 // TODO: Shift into constants file
-const MATCH_TIMEOUT = 10;
+const MATCH_TIMEOUT = 30;
 
 let _io = undefined;
 export function setIo(io) {
