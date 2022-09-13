@@ -60,7 +60,10 @@ export async function loginUser(req, res) {
     }
     if (resp.success) {
       const { token, userId } = resp;
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, {
+        httpOnly: true,
+        domain: "http://127.0.0.1:5173/",
+      });
       return res.json({ token, userId, username });
     } else {
       return res.status(401).json({ message: resp.message });
@@ -93,31 +96,27 @@ export async function deleteUser(req, res) {
 
 export async function changePassword(req, res) {
   try {
-    const { username, password } = req.body;
-    const resp = _changePassword(username, password);
+    const { username, oldPassword, password } = req.body;
+    const resp = await _changePassword(username, oldPassword, password);
+
     if (resp?.err) {
-      return res
-        .status(500)
-        .json({
-          message: "Database failure when attempting to update user password!",
-        });
+      return res.status(500).json({
+        message: "Database failure when attempting to update user password!",
+      });
     }
     if (resp.success) {
       return res
         .status(200)
         .json({ message: `Updated user ${username} password successfully!` });
     } else {
-      return res
-        .status(500)
-        .json({
-          message: "Database failure when attempting to update user password!",
-        });
+      return res.status(resp.status).json({
+        message: resp.message,
+      });
     }
   } catch (err) {
-    return res
-      .status(500)
-      .json({
-        message: "Database failure when attempting to update user password!",
-      });
+    console.log(err);
+    return res.status(500).json({
+      message: "Database failure when attempting to update user password!",
+    });
   }
 }

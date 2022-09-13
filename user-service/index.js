@@ -9,11 +9,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors()); // config cors so that front-end can use
 app.options("*", cors());
-app.use(
-  expressjwt({ secret: process.env.JWT_KEY, algorithms: ["HS256"] }).unless({
-    path: ["/", "/api/user/login", "/api/user/"],
-  })
-);
+// app.use(
+//   expressjwt({ secret: process.env.JWT_KEY, algorithms: ["HS256"] }).unless({
+//     path: ["/", "/api/user/login", "/api/user/"],
+//   })
+// );
 
 import {
   createUser,
