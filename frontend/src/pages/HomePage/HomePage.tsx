@@ -25,13 +25,21 @@ const HomePage = () => {
         <Heading size="md" sx={{ mb: 2 }}>
           Select Difficulty:
         </Heading>
-        <Button colorScheme="green" onClick={() => openModal(EASY)}>
+        <Button
+          colorScheme="green"
+          width="100%"
+          onClick={() => openModal(EASY)}
+        >
           Easy
         </Button>
-        <Button colorScheme="teal" onClick={() => openModal(MEDIUM)}>
+        <Button
+          colorScheme="teal"
+          width="100%"
+          onClick={() => openModal(MEDIUM)}
+        >
           Medium
         </Button>
-        <Button colorScheme="red" onClick={() => openModal(HARD)}>
+        <Button colorScheme="red" width="100%" onClick={() => openModal(HARD)}>
           Hard
         </Button>
       </VStack>

@@ -25,3 +25,11 @@ export async function isUserExist(username) {
 export async function getUser(username) {
   return UserModel.findOne({ username: username });
 }
+
+export async function deleteUser(username) {
+  return UserModel.deleteOne({ username: username });
+}
+
+export async function changePassword(username, password) {
+  return UserModel.updateOne({ username: username }, { password: password });
+}

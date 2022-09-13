@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { NavLink as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink, useNavigate } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -17,6 +17,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import useUserStore from "~/store/userStore";
 
 const NavLink = ({ children, to }: { children: ReactNode; to: string }) => (
   <Link
@@ -35,6 +36,8 @@ const NavLink = ({ children, to }: { children: ReactNode; to: string }) => (
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const navigate = useNavigate();
+  const zustandLogout = useUserStore((state) => state.logout);
 
   return (
     <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -67,8 +70,12 @@ export default function NavBar() {
                   />
                 </Center>
                 <MenuDivider />
-                <MenuItem>Account Settings</MenuItem>
-                <MenuItem>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => navigate("/account", { replace: true })}
+                >
+                  Account Settings
+                </MenuItem>
+                <MenuItem onClick={() => zustandLogout()}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Stack>

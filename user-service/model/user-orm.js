@@ -1,6 +1,12 @@
 import bcrypt from "bcrypt";
 
-import { createUser, isUserExist, getUser } from "./repository.js";
+import {
+  createUser,
+  isUserExist,
+  getUser,
+  deleteUser,
+  changePassword,
+} from "./repository.js";
 
 import jwtPackage from "jsonwebtoken";
 const { sign } = jwtPackage;
@@ -51,7 +57,53 @@ export async function ormLoginUser(username, password) {
     }
     return { success: false, message: "Password is incorrect" };
   } catch (err) {
-    console.log(`ERROR: Failed to retrieve user.\n${err}`);
+    console.log(`ERROR: Failed to retrieve user.`);
+    return { err };
+  }
+}
+
+export async function ormDeleteUser(username) {
+  try {
+    const { deletedCount } = await deleteUser(username);
+    return { success: true, message: `Deleted ${username} user` };
+  } catch (err) {
+    console.log(`ERROR: Failed to delete user.`);
+    return { err };
+  }
+}
+
+export async function ormChangePassword(username, oldPassword, password) {
+  try {
+    const findUser = await getUser(username);
+    if (findUser === null) {
+      return { success: false, message: "Username does not exist" };
+    }
+    const isPasswordEqual = await bcrypt.compare(
+      oldPassword,
+      findUser.password
+    );
+
+    if (isPasswordEqual) {
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+      const { acknowledged } = await changePassword(username, hashedPassword);
+      if (acknowledged) {
+        return {
+          success: true,
+          status: 200,
+          message: "Successfully updated password",
+        };
+      } else {
+        return {
+          success: false,
+          status: 500,
+          message: "Failed to update password",
+        };
+      }
+    } else {
+      return { success: false, status: 401, message: "Incorrect password" };
+    }
+  } catch (err) {
+    console.log(`ERROR: Failed to update user password.`);
     return { err };
   }
 }

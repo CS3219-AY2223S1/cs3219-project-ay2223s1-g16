@@ -12,6 +12,7 @@ import LoginPage from "~/pages/LoginPage/LoginPage";
 import HomePage from "~/pages/HomePage/HomePage";
 import RoomPage from "~/pages/RoomPage/RoomPage";
 import NotFoundPage from "~/pages/NotFoundPage";
+import AccountPage from "~/pages/AccountPage/AccountPage";
 
 // Helper Component
 interface Props {
@@ -34,6 +35,7 @@ const Router = () => {
           <Route element={<Layout />}>
             <Route path="/home" element={<HomePage />} />
             <Route path="/room" element={<RoomPage />} />
+            <Route path="/account" element={<AccountPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
