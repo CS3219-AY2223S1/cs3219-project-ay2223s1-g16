@@ -5,13 +5,19 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
 	"question-service/pkg/config"
+	"question-service/pkg/controllers"
+	"question-service/pkg/repositories"
 )
 
 func main() {
+	dbClient := config.InitDbClient()
+	repos := repositories.InitRepositories(dbClient)
+	questionRouter := controllers.InitQuestionController(repos.QuestionRepo)
+
+	basePrefix := "/api/v1"
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello World!"))
-	})
+	r.Mount(basePrefix, questionRouter)
+
 	http.ListenAndServe(":"+config.SERVER_PORT, r)
 }
