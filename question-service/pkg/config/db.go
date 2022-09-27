@@ -15,11 +15,5 @@ func InitDbClient() *mongo.Database {
 
 	DbClient := client.Database(DB_NAME)
 
-	defer func() {
-		if err := client.Disconnect(context.TODO()); err != nil {
-			log.Fatal(err.Error())
-		}
-	}()
-
 	return DbClient
 }
