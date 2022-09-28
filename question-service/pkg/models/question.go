@@ -6,9 +6,9 @@ import (
 )
 
 type Question struct {
-	Id          primitive.ObjectID `bson:"_id"`
-	Title       string
-	Description string
-	Difficulty  types.Difficulty
-	Topics      []string
+	Id          primitive.ObjectID `bson:"_id" json:"id"`
+	Title       string             `json:"title"`
+	Description string             `json:"description"`
+	Difficulty  types.Difficulty   `json:"difficulty"`
+	Topics      []string           `json:"topics"`
 }

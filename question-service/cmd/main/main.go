@@ -1,12 +1,14 @@
 package main
 
 import (
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"net/http"
+
 	"question-service/pkg/config"
 	"question-service/pkg/controllers"
 	"question-service/pkg/repositories"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
