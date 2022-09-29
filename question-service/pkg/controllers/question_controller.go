@@ -53,7 +53,7 @@ func getRandomQnByDifficulty(w http.ResponseWriter, r *http.Request) {
 		UserTwo: userTwo,
 	}
 
-	err = event.SendMessage(msg)
+	err = event.SendMessage(msg.Id, msg)
 	if err != nil {
 		log.Printf("Failed to publish user question message: %s", err.Error())
 	}

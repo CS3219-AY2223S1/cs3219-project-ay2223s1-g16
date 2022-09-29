@@ -3,38 +3,36 @@ package event
 import (
 	"context"
 	"encoding/json"
-	"log"
-
-	"question-service/pkg/config"
-
 	"github.com/segmentio/kafka-go"
+	"question-service/pkg/config"
 )
 
 const (
-	TOPIC     = "user-question"
-	PARTITION = 0
+	TOPIC = "user-question"
 )
 
 var (
-	kafkaClient *kafka.Conn
+	kafkaWriter *kafka.Writer
 )
 
 func InitKafkaProducer() {
-	var err error
-	kafkaClient, err = kafka.DialLeader(context.Background(), "tcp", config.KAFKA_BROKER, TOPIC, PARTITION)
-
-	if err != nil {
-		log.Fatal("failed to dial leader:", err)
+	kafkaWriter = &kafka.Writer{
+		Addr:                   kafka.TCP(config.KAFKA_BROKER),
+		Topic:                  TOPIC,
+		AllowAutoTopicCreation: true,
 	}
 }
 
-func SendMessage(message interface{}) error {
+func SendMessage(id string, message interface{}) error {
 	byteMessage, err := json.Marshal(message)
 	if err != nil {
 		return err
 	}
 
-	_, err = kafkaClient.Write(byteMessage)
+	err = kafkaWriter.WriteMessages(context.Background(), kafka.Message{
+		Key:   []byte(id),
+		Value: byteMessage,
+	})
 	if err != nil {
 		return err
 	}
