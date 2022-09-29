@@ -6,6 +6,7 @@ import {
   getUser,
   deleteUser,
   changePassword,
+  addToHistory,
 } from "./repository.js";
 
 import jwtPackage from "jsonwebtoken";
@@ -104,6 +105,15 @@ export async function ormChangePassword(username, oldPassword, password) {
     }
   } catch (err) {
     console.log(`ERROR: Failed to update user password.`);
+    return { err };
+  }
+}
+
+export async function ormAddQuestionToUserHistory(user, question) {
+  try {
+    await addToHistory(user, question);
+  } catch (err) {
+    console.log("Failed to add question to user's history");
     return { err };
   }
 }
