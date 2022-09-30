@@ -1,10 +1,23 @@
 import {
+  ormGetUser as _getUser,
   ormCreateUser as _createUser,
   ormIsUserExist as _checkUserExist,
   ormLoginUser as _loginUser,
   ormDeleteUser as _deleteUser,
   ormChangePassword as _changePassword,
 } from "../model/user-orm.js";
+
+export async function getUserHistory(req, res) {
+  try {
+    const { username } = req.params;
+    const user = await _getUser(username);
+    return res.status(200).json({ history: user.history });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Database failure when fetching user history." });
+  }
+}
 
 export async function createUser(req, res) {
   try {
