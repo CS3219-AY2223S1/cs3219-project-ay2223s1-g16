@@ -24,11 +24,15 @@ const messageHandler = async (msg) => {
 };
 
 export const startConsumer = async () => {
-  await consumer.connect();
-  await consumer.subscribe({ topic: TOPIC, fromBeginning: false });
-  await consumer.run({
-    eachMessage: async ({ message }) => {
-      await messageHandler(message.value.toString());
-    },
-  });
+  try {
+    await consumer.connect();
+    await consumer.subscribe({ topic: TOPIC, fromBeginning: false });
+    await consumer.run({
+      eachMessage: async ({ message }) => {
+        await messageHandler(message.value.toString());
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };
