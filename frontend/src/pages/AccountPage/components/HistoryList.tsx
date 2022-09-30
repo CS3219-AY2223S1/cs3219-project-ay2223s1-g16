@@ -42,7 +42,7 @@ const HistoryList = ({
           return (
             <Box>
               <Text key={_id}>{`${idx + 1}. ${title}`}</Text>
-              <Divider sx={{ mt: 3 }} />
+              <Divider sx={{ my: 2 }} />
             </Box>
           );
         })}
