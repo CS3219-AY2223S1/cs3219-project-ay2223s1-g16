@@ -11,7 +11,7 @@ export async function getUserHistory(req, res) {
   try {
     const { username } = req.params;
     const user = await _getUser(username);
-    return res.status(200).json({ history: user.history });
+    return res.status(200).json({ history: user.history.reverse() });
   } catch (err) {
     return res
       .status(500)
