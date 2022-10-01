@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"question-service/pkg/event"
 
 	"question-service/pkg/config"
 	"question-service/pkg/controllers"
@@ -12,6 +13,7 @@ import (
 )
 
 func main() {
+	event.InitKafkaProducer()
 	dbClient := config.InitDbClient()
 	repos := repositories.InitRepositories(dbClient)
 	questionRouter := controllers.InitQuestionController(repos.QuestionRepo)

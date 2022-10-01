@@ -20,13 +20,16 @@ import {
   loginUser,
   deleteUser,
   changePassword,
+  getUserHistory,
 } from "./controller/user-controller.js";
+import { startConsumer } from "./events/consumer.js";
 
 const router = express.Router();
 
 // Controller will contain all the User-defined Routes
 router.get("/", (_, res) => res.send("Hello World from user-service"));
 router.post("/", createUser);
+router.get("/history/:username", getUserHistory);
 router.post("/login", loginUser);
 router.post("/delete", deleteUser);
 router.post("/password", changePassword);
@@ -37,3 +40,10 @@ app.use("/api/user", router).all((_, res) => {
 });
 
 app.listen(8000, () => console.log("user-service listening on port 8000"));
+
+// Start kafka consumer
+try {
+  startConsumer();
+} catch (err) {
+  console.error(`Failed to start kafka consumer: ${err}`);
+}

@@ -73,7 +73,7 @@ export default function NavBar() {
                 <MenuItem
                   onClick={() => navigate("/account", { replace: true })}
                 >
-                  Account Settings
+                  Account
                 </MenuItem>
                 <MenuItem onClick={() => zustandLogout()}>Logout</MenuItem>
               </MenuList>

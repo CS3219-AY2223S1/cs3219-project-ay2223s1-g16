@@ -33,3 +33,10 @@ export async function deleteUser(username) {
 export async function changePassword(username, password) {
   return UserModel.updateOne({ username: username }, { password: password });
 }
+
+export async function addToHistory(userId, question) {
+  const user = await UserModel.findById(userId);
+  user.history.push(question);
+  await user.save();
+  return user;
+}

@@ -8,9 +8,10 @@ import (
 )
 
 var (
-	DB_URL      string
-	DB_NAME     string
-	SERVER_PORT string
+	DB_URL       string
+	DB_NAME      string
+	SERVER_PORT  string
+	KAFKA_BROKER string
 )
 
 func init() {
@@ -21,4 +22,5 @@ func init() {
 	DB_URL = os.Getenv("DB_URL")
 	DB_NAME = os.Getenv("DB_NAME")
 	SERVER_PORT = os.Getenv("SERVER_PORT")
+	KAFKA_BROKER = os.Getenv("KAFKA_BROKER")
 }
