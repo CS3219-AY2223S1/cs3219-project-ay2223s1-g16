@@ -2,12 +2,7 @@ import express from "express";
 import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import {
-  connectionHandler,
-  disconnectHandler,
-  codeUpdateHandler,
-  disconnectingHandler,
-} from "./handlers.js";
+import { disconnectHandler } from "./handlers.js";
 import {
   CODE_CONNECT_NEW,
   CODE_DISCONNECT,
