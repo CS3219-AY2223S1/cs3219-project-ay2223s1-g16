@@ -8,8 +8,9 @@ const CollabPage = () => {
       direction={"row"}
       justifyContent={"center"}
       alignItems={"center"}
-      //   wrap={"wrap"}
+      wrap={"wrap"}
       sx={{ height: "100vh" }}
+      flex={1}
     >
       <Question />
       <CodeMirror />

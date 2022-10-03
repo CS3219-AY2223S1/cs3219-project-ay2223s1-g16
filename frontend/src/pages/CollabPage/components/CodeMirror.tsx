@@ -65,17 +65,10 @@ const PeerPrepCodeMirror = () => {
   });
 
   return (
-    <Flex
-      direction={"column"}
-      padding={2}
-      minWidth="300px"
-      width="50vw"
-      height="100vh"
-    >
+    <Flex direction={"column"} padding={2} minWidth="300px" flex={1}>
       <CodeMirror
         basicSetup={true}
         value={code}
-        height="70vh"
         theme={sublime}
         extensions={[python()]}
         onChange={onChange}
