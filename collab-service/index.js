@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
   socket.on(CODE_DISCONNECT, disconnectHandler);
 
   socket.on(CODE_UPDATE, ({ roomId, code }) => {
-    console.log(`Code Update, ${code}`);
+    // console.log(`Code Update, ${code}`);
     socket.to(roomId).emit(CODE_UPDATE, code);
   });
 

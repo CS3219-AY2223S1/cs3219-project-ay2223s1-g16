@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { sublime } from "@uiw/codemirror-theme-sublime";
 import { ViewUpdate } from "@codemirror/view";
@@ -6,6 +6,7 @@ import { python } from "@codemirror/lang-python";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Results from "./Results";
 import { io, Socket } from "socket.io-client";
+import { debounce } from "lodash";
 import {
   CODE_CONNECT_NEW,
   CODE_DISCONNECT,
@@ -24,9 +25,14 @@ const PeerPrepCodeMirror = () => {
   const zustandUsername = useUserStore((state) => state.username);
   const zustandUpdateState = useCollabStore((state) => state.newCollabState);
 
-  const onChange = (value: string, viewUpdate: ViewUpdate) => {
-    console.log("value:", value, viewUpdate);
+  const debouncedUpdate = debounce((value: string, viewUpdate: ViewUpdate) => {
     socket?.emit(CODE_UPDATE, { roomId: zustandRoomId, code: value });
+  }, 300);
+
+  const onChange = (value: string, viewUpdate: ViewUpdate) => {
+    if (value !== code) {
+      debouncedUpdate(value, viewUpdate);
+    }
   };
 
   useEffect(() => {
@@ -55,7 +61,6 @@ const PeerPrepCodeMirror = () => {
   socket?.on(CODE_LEFT, codeLeftHandler);
 
   socket?.on(CODE_UPDATE, (code) => {
-    console.log(code);
     setCode(code);
   });
 
