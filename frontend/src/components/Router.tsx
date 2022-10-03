@@ -35,9 +35,8 @@ const Router = () => {
         <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
             <Route path="/home" element={<HomePage />} />
-            {/* <Route path="/room" element={<RoomPage />} /> */}
+            <Route path="/room" element={<RoomPage />} />
             <Route path="/account" element={<AccountPage />} />
-            <Route path="/room" element={<CollabPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
