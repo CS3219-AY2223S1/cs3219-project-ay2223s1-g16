@@ -39,7 +39,6 @@ const PeerPrepCodeMirror = () => {
   }, 300);
 
   const onChange = (value: string, viewUpdate: ViewUpdate) => {
-    console.log(value, viewUpdate);
     if (value !== code) {
       debouncedUpdate(value, viewUpdate);
     }
@@ -82,7 +81,6 @@ const PeerPrepCodeMirror = () => {
   languages.set("Java", java());
 
   const changeLanguageHandler = (lang: string) => {
-    setCode("// Write your code here");
     const langExt = languages.get(lang);
     if (langExt === undefined) {
       setLanguage("Python");
@@ -91,6 +89,7 @@ const PeerPrepCodeMirror = () => {
       setLanguage(lang);
       setLanguageExt(langExt);
     }
+    setCode("// Write your code here");
   };
 
   const updateLanguageHandler = (lang: string) => {
