@@ -6,7 +6,7 @@ import { python } from "@codemirror/lang-python";
 import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useToast } from "@chakra-ui/react";
 import Results from "./Results";
 import { io, Socket } from "socket.io-client";
 import { debounce } from "lodash";
@@ -29,6 +29,7 @@ const PeerPrepCodeMirror = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
   const [language, setLanguage] = useState<string>("Python");
+  const toast = useToast();
   const zustandRoomId = useMatchStore((state) => state.roomId);
   const zustandUsername = useUserStore((state) => state.username);
   const zustandUpdateState = useCollabStore((state) => state.newCollabState);
@@ -56,6 +57,15 @@ const PeerPrepCodeMirror = () => {
       clientSocket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    toast({
+      title: `Language updated to ${language}`,
+      status: "info",
+      isClosable: true,
+      duration: 3000,
+    });
+  }, [language]);
 
   const codeJoinedHandler = (username: string) => {
     console.log(`${username} has joined the room`);
