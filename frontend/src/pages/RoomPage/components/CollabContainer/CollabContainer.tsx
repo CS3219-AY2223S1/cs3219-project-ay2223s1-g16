@@ -5,13 +5,7 @@ import PeerPrepCodeMirror from "./components/PeerPrepCodeMirror";
 
 const CollabContainer = () => {
   return (
-    <Flex
-      direction={"row"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      wrap={"wrap"}
-      flex={1}
-    >
+    <Flex direction={"row"} wrap={"wrap"} flex={1}>
       <Box padding={6} minWidth="300px" flex={1} height={"100%"}>
         <Question />
       </Box>

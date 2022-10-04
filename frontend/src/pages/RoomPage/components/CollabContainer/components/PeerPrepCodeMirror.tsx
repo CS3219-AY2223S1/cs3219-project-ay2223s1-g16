@@ -6,7 +6,7 @@ import { python } from "@codemirror/lang-python";
 import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
-import { Flex, useToast } from "@chakra-ui/react";
+import { Flex, Box, useToast } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
 import { debounce } from "lodash";
 
@@ -112,19 +112,27 @@ const PeerPrepCodeMirror = () => {
   });
 
   return (
-    <Flex direction={"column"} padding={2} minWidth="300px" flex={1}>
-      <LanguageMenu
-        language={language}
-        languages={Array.from(languages.keys())}
-        updateLanguageHandler={updateLanguageHandler}
-      />
-      <CodeMirror
-        basicSetup={true}
-        value={code}
-        theme={sublime}
-        extensions={[languageExt]}
-        onChange={onChange}
-      />
+    <Flex
+      direction={"column"}
+      padding={2}
+      minWidth="300px"
+      flex={1}
+      justifyContent="space-between"
+    >
+      <Box>
+        <LanguageMenu
+          language={language}
+          languages={Array.from(languages.keys())}
+          updateLanguageHandler={updateLanguageHandler}
+        />
+        <CodeMirror
+          basicSetup={true}
+          value={code}
+          theme={sublime}
+          extensions={[languageExt]}
+          onChange={onChange}
+        />
+      </Box>
       <Results />
     </Flex>
   );
