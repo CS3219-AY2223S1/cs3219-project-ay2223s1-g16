@@ -1,15 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { Flex } from "@chakra-ui/react";
 import CodeMirror from "@uiw/react-codemirror";
 import { sublime } from "@uiw/codemirror-theme-sublime";
 import { ViewUpdate } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import Results from "./Results";
 import { io, Socket } from "socket.io-client";
 import { debounce } from "lodash";
+
 import {
   CODE_CONNECT_NEW,
-  CODE_DISCONNECT,
   CODE_JOINED,
   CODE_LEFT,
   CODE_UPDATE,
@@ -17,6 +16,7 @@ import {
 import useUserStore from "~/store/userStore";
 import useMatchStore from "~/store/matchStore";
 import useCollabStore from "~/store/collabStore";
+import Results from "./Results";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');

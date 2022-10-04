@@ -1,17 +1,11 @@
-import {
-  Text,
-  Heading,
-  Button,
-  Flex,
-  useToast,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Button, Flex, useToast, useDisclosure } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MATCH_FAIL, MATCH_LEAVE } from "~/constants";
 
+import { MATCH_FAIL, MATCH_LEAVE } from "~/constants";
 import useMatchStore from "~/store/matchStore";
-import CollabPage from "../CollabPage/CollabPage";
+
+import CollabContainer from "./components/CollabContainer/CollabContainer";
 import LeaveRoomModal from "./components/LeaveRoomModal";
 
 const RoomPage = () => {
@@ -50,7 +44,7 @@ const RoomPage = () => {
 
   return (
     <Flex direction="column" height="90vh">
-      <CollabPage />
+      <CollabContainer />
       <Button onClick={onOpen}>Leave Room</Button>
       <LeaveRoomModal
         isOpen={isOpen}
