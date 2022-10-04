@@ -7,12 +7,11 @@ import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
 import { Flex, useToast } from "@chakra-ui/react";
-import Results from "./Results";
 import { io, Socket } from "socket.io-client";
 import { debounce } from "lodash";
+
 import {
   CODE_CONNECT_NEW,
-  CODE_DISCONNECT,
   CODE_JOINED,
   CODE_LANGUAGE,
   CODE_LEFT,
@@ -21,6 +20,7 @@ import {
 import useUserStore from "~/store/userStore";
 import useMatchStore from "~/store/matchStore";
 import useCollabStore from "~/store/collabStore";
+import Results from "./Results";
 import LanguageMenu from "./LanguageMenu";
 import { LanguageSupport } from "@codemirror/language";
 
