@@ -53,7 +53,10 @@ const Question = () => {
     }
   };
 
-  const { isLoading, data } = useQuery(["question"], fetchQuestion);
+  const { isLoading, data } = useQuery(["question"], fetchQuestion, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 
   if (isLoading) {
     return (
