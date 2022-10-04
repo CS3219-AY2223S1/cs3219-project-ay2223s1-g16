@@ -82,7 +82,7 @@ const MatchModal = ({
     }) => {
       const otherUserId =
         usernameOne === loggedInUsername ? usernameTwo : usernameOne;
-      newMatchState(roomId, otherUserId, socket);
+      newMatchState(roomId, otherUserId, difficulty, socket);
       navigateToRoomPage();
     }
   );
