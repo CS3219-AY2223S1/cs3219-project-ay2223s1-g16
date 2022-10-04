@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Accordion,
   AccordionButton,
   AccordionIcon,
@@ -53,7 +56,7 @@ const Question = () => {
     }
   };
 
-  const { isLoading, data } = useQuery(["question"], fetchQuestion, {
+  const { isLoading, data, error } = useQuery(["question"], fetchQuestion, {
     retry: false,
     refetchOnWindowFocus: false,
   });
@@ -65,6 +68,13 @@ const Question = () => {
         <Skeleton height="20px" />
         <Skeleton height="20px" />
       </Stack>
+    );
+  } else if (error) {
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        <AlertTitle>Failed to retrieve question</AlertTitle>
+      </Alert>
     );
   } else {
     const { title, description, topics } = data;
