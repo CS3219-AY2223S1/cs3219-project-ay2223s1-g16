@@ -24,7 +24,7 @@ const RoomPage = () => {
         title: "User has disconnected",
         status: "warning",
         isClosable: true,
-        duration: null,
+        duration: 10000,
       });
     }
   }, [isOtherUserDisconnected]);

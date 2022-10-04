@@ -3,3 +3,4 @@ export const CODE_DISCONNECT = "code:disconnect";
 export const CODE_UPDATE = "code:update";
 export const CODE_JOINED = "code:joined";
 export const CODE_LEFT = "code:left";
+export const CODE_LANGUAGE = "code:language";
