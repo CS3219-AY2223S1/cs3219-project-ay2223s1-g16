@@ -1,8 +1,9 @@
 import { Flex } from "@chakra-ui/react";
-import CodeMirror from "./components/CodeMirror";
-import Question from "./components/Question";
 
-const CollabPage = () => {
+import Question from "./components/Question";
+import PeerPrepCodeMirror from "./components/PeerPrepCodeMirror";
+
+const CollabContainer = () => {
   return (
     <Flex
       direction={"row"}
@@ -12,9 +13,9 @@ const CollabPage = () => {
       flex={1}
     >
       <Question />
-      <CodeMirror />
+      <PeerPrepCodeMirror />
     </Flex>
   );
 };
 
-export default CollabPage;
+export default CollabContainer;

@@ -4,6 +4,10 @@ const userSvcAxiosClient = axios.create({
   baseURL: import.meta.env.VITE_USER_SVC_URL,
 });
 
+const qnSvcAxiosClient = axios.create({
+  baseURL: import.meta.env.VITE_QN_SVC_URL,
+});
+
 const requests = (api: any) => {
   return {
     get: (url: string) => {
@@ -37,4 +41,5 @@ const requests = (api: any) => {
 };
 
 const userSvcClient = requests(userSvcAxiosClient);
-export { userSvcClient };
+const qnSvcClient = requests(qnSvcAxiosClient);
+export { userSvcClient, qnSvcClient };
