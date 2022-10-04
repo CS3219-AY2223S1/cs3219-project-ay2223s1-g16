@@ -23,6 +23,7 @@ import useCollabStore from "~/store/collabStore";
 import Results from "./Results";
 import LanguageMenu from "./LanguageMenu";
 import { LanguageSupport } from "@codemirror/language";
+import useUpdateEffect from "~/hooks/useUpdateEffect";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');
@@ -57,7 +58,7 @@ const PeerPrepCodeMirror = () => {
     };
   }, []);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     toast({
       title: `Language updated to ${language}`,
       status: "info",
