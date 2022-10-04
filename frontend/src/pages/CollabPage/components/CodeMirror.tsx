@@ -1,9 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { sublime } from "@uiw/codemirror-theme-sublime";
 import { ViewUpdate } from "@codemirror/view";
 import { python } from "@codemirror/lang-python";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { javascript } from "@codemirror/lang-javascript";
+import { cpp } from "@codemirror/lang-cpp";
+import { java } from "@codemirror/lang-java";
+import { Flex } from "@chakra-ui/react";
 import Results from "./Results";
 import { io, Socket } from "socket.io-client";
 import { debounce } from "lodash";
@@ -11,16 +14,21 @@ import {
   CODE_CONNECT_NEW,
   CODE_DISCONNECT,
   CODE_JOINED,
+  CODE_LANGUAGE,
   CODE_LEFT,
   CODE_UPDATE,
 } from "~/constants";
 import useUserStore from "~/store/userStore";
 import useMatchStore from "~/store/matchStore";
 import useCollabStore from "~/store/collabStore";
+import LanguageMenu from "./LanguageMenu";
+import { LanguageSupport } from "@codemirror/language";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
+  const [language, setLanguage] = useState<string>("Python");
   const zustandRoomId = useMatchStore((state) => state.roomId);
   const zustandUsername = useUserStore((state) => state.username);
   const zustandUpdateState = useCollabStore((state) => state.newCollabState);
@@ -30,6 +38,7 @@ const PeerPrepCodeMirror = () => {
   }, 300);
 
   const onChange = (value: string, viewUpdate: ViewUpdate) => {
+    console.log(value, viewUpdate);
     if (value !== code) {
       debouncedUpdate(value, viewUpdate);
     }
@@ -56,6 +65,31 @@ const PeerPrepCodeMirror = () => {
     console.log(message);
   };
 
+  const languages = new Map<string, LanguageSupport>();
+  languages.set("Python", python());
+  languages.set("C++", cpp());
+  languages.set("Javascript", javascript());
+  languages.set("Java", java());
+
+  const changeLanguageHandler = (lang: string) => {
+    setCode("// Write your code here");
+    const langExt = languages.get(lang);
+    if (langExt === undefined) {
+      setLanguage("Python");
+      setLanguageExt(python());
+    } else {
+      setLanguage(lang);
+      setLanguageExt(langExt);
+    }
+  };
+
+  const updateLanguageHandler = (lang: string) => {
+    if (lang !== language) {
+      changeLanguageHandler(lang);
+      socket?.emit(CODE_LANGUAGE, { roomId: zustandRoomId, language: lang });
+    }
+  };
+
   socket?.on(CODE_JOINED, codeJoinedHandler);
 
   socket?.on(CODE_LEFT, codeLeftHandler);
@@ -64,13 +98,22 @@ const PeerPrepCodeMirror = () => {
     setCode(code);
   });
 
+  socket?.on(CODE_LANGUAGE, (lang) => {
+    changeLanguageHandler(lang);
+  });
+
   return (
     <Flex direction={"column"} padding={2} minWidth="300px" flex={1}>
+      <LanguageMenu
+        language={language}
+        languages={Array.from(languages.keys())}
+        updateLanguageHandler={updateLanguageHandler}
+      />
       <CodeMirror
         basicSetup={true}
         value={code}
         theme={sublime}
-        extensions={[python()]}
+        extensions={[languageExt]}
         onChange={onChange}
       />
       <Results />

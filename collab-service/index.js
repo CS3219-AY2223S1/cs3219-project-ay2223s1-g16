@@ -2,13 +2,13 @@ import express from "express";
 import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { disconnectHandler } from "./handlers.js";
 import {
   CODE_CONNECT_NEW,
   CODE_DISCONNECT,
   CODE_UPDATE,
   CODE_JOINED,
   CODE_LEFT,
+  CODE_LANGUAGE,
 } from "./events.js";
 
 const app = express();
@@ -34,10 +34,11 @@ io.on("connection", (socket) => {
     socket.join(roomId);
     socket.to(roomId).emit(CODE_JOINED, username);
   });
-  socket.on(CODE_DISCONNECT, disconnectHandler);
+
+  socket.on(CODE_DISCONNECT, () => {});
 
   socket.on(CODE_UPDATE, ({ roomId, code }) => {
-    // console.log(`Code Update, ${code}`);
+    console.log(`Code Update to ${roomId}, \n${code}`);
     socket.to(roomId).emit(CODE_UPDATE, code);
   });
 
@@ -47,6 +48,11 @@ io.on("connection", (socket) => {
     socket
       .to(Array.from(socket.rooms))
       .emit(CODE_LEFT, "User has left the room");
+  });
+
+  socket.on(CODE_LANGUAGE, ({ roomId, language }) => {
+    console.log(`Switch language to ${language}`);
+    socket.to(roomId).emit(CODE_LANGUAGE, language);
   });
 });
 
