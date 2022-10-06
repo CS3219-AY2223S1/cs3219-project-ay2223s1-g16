@@ -1,15 +1,23 @@
 import create from "zustand";
 import { Socket } from "socket.io-client";
 
+export type Question = {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: string;
+  topics: [string];
+};
+
 interface MatchState {
   roomId: number;
   userId: string;
-  difficulty: string;
+  question: Question | null;
   socket: Socket | null;
   newMatchState: (
     roomId: number,
     userId: string,
-    difficulty: string,
+    question: Question,
     socket: Socket
   ) => void;
   clearMatchState: () => void;
@@ -18,16 +26,16 @@ interface MatchState {
 const useMatchStore = create<MatchState>((set) => ({
   roomId: -1,
   userId: "",
-  difficulty: "",
   socket: null,
+  question: null,
   newMatchState: (
     roomId: number,
     userId: string,
-    difficulty: string,
+    question: Question,
     socket: Socket
-  ) => set((state) => ({ ...state, roomId, userId, difficulty, socket })),
+  ) => set((state) => ({ ...state, roomId, userId, question, socket })),
   clearMatchState: () =>
-    set(() => ({ roomId: -1, userId: "", difficulty: "", socket: null })),
+    set(() => ({ roomId: -1, userId: "", question: null, socket: null })),
 }));
 
 export default useMatchStore;

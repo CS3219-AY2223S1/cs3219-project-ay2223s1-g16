@@ -9,11 +9,12 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  Spinner,
 } from "@chakra-ui/react";
 import { RepeatClockIcon } from "@chakra-ui/icons";
 
 import useUserStore from "~/store/userStore";
-import useMatchStore from "~/store/matchStore";
+import useMatchStore, { Question } from "~/store/matchStore";
 import {
   MATCH_START,
   MATCH_REQUEST_NEW,
@@ -34,7 +35,7 @@ const MatchModal = ({
   const navigate = useNavigate();
   const loggedInUsername = useUserStore((state) => state.username);
   const newMatchState = useMatchStore((state) => state.newMatchState);
-  const [initialTime, setInitialTime] = useState(0);
+  const [initialTime, setInitialTime] = useState<number | null>(null);
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
@@ -60,6 +61,7 @@ const MatchModal = ({
   const closeModal = () => {
     socket?.disconnect();
     setSocket(null);
+    setInitialTime(null);
     onClose();
   };
 
@@ -75,14 +77,16 @@ const MatchModal = ({
       roomId,
       usernameOne,
       usernameTwo,
+      question,
     }: {
       roomId: number;
       usernameOne: string;
       usernameTwo: string;
+      question: Question;
     }) => {
       const otherUserId =
         usernameOne === loggedInUsername ? usernameTwo : usernameOne;
-      newMatchState(roomId, otherUserId, difficulty, socket);
+      newMatchState(roomId, otherUserId, question, socket);
       navigateToRoomPage();
     }
   );
@@ -99,7 +103,9 @@ const MatchModal = ({
             justifyContent: "center",
           }}
         >
-          {initialTime > 0 ? (
+          {initialTime === null ? (
+            <Spinner />
+          ) : initialTime > 0 ? (
             <Timer initial={initialTime} />
           ) : (
             <Button leftIcon={<RepeatClockIcon />} onClick={retryHandler}>

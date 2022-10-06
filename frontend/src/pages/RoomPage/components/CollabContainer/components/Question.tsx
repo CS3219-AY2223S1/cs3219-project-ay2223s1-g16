@@ -10,18 +10,12 @@ import {
   Box,
   Badge,
   Heading,
-  Text,
-  Stack,
-  Skeleton,
-  VStack,
-  useToast,
   Tag,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 
 import useMatchStore from "~/store/matchStore";
-import useUserStore from "~/store/userStore";
-import { qnSvcClient } from "~/utils/request";
 
 const getDifficultyColorScheme = (difficulty: string) => {
   if (difficulty == "EASY") {
@@ -36,40 +30,9 @@ const getDifficultyColorScheme = (difficulty: string) => {
 };
 
 const Question = () => {
-  const toast = useToast();
-  const loggedInUserId = useUserStore((state) => state.userId);
-  const matchedUserId = useMatchStore((state) => state.userId);
-  const qnDifficulty = useMatchStore((state) => state.difficulty);
+  const question = useMatchStore((state) => state.question);
 
-  const fetchQuestion = async () => {
-    try {
-      const response = await qnSvcClient.get(
-        `/questions/${qnDifficulty}/${loggedInUserId}/${matchedUserId}`
-      );
-      return response.data;
-    } catch (err) {
-      toast({
-        title: "Failed to fetch question",
-        status: "error",
-        isClosable: true,
-      });
-    }
-  };
-
-  const { isLoading, data, error } = useQuery(["question"], fetchQuestion, {
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-
-  if (isLoading) {
-    return (
-      <Stack>
-        <Skeleton height="20px" />
-        <Skeleton height="20px" />
-        <Skeleton height="20px" />
-      </Stack>
-    );
-  } else if (error) {
+  if (question === null) {
     return (
       <Alert status="error">
         <AlertIcon />
@@ -77,15 +40,15 @@ const Question = () => {
       </Alert>
     );
   } else {
-    const { title, description, topics } = data;
+    const { title, description, topics, difficulty } = question;
     return (
       <VStack alignItems={"start"} sx={{ height: "100%" }}>
         <Heading>{title}</Heading>
         <Badge
           sx={{ px: 2, py: 1 }}
-          colorScheme={getDifficultyColorScheme(qnDifficulty)}
+          colorScheme={getDifficultyColorScheme(difficulty)}
         >
-          {qnDifficulty}
+          {difficulty}
         </Badge>
         <Text>{description}</Text>
         <Accordion allowToggle width={"100%"}>
