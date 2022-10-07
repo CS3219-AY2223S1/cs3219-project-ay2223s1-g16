@@ -1,0 +1,50 @@
+version: '3'
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+    volumes:
+      - ./frontend-service/:/usr/app/
+      - /usr/app/node_modules
+  user-svc:
+    build: 
+      context: ./user-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+    volumes:
+      - ./user-service/:/usr/app/
+      - /usr/app/node_modules
+  matching-svc:
+    build: 
+      context: ./matching-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+    volumes:
+      - ./matching-service/:/usr/app/
+      - /usr/app/node_modules
+  collab-svc:
+    build: 
+      context: ./collab-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+    volumes:
+      - ./collab-service/:/usr/app/
+      - /usr/app/node_modules
+  question-svc:
+    build:
+      context: ./question-service
+      dockerfile: ../go.dockerfile
+    network_mode: host
+    volumes:
+      - ./question-service:/go/src/
+    # environment:
+    #   - SERVER_PORT=3000
+      # - DB_URL=
+      # - DB_NAME=
+      # - KAFKA_BROKER=
