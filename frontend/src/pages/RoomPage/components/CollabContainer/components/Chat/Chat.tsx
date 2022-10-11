@@ -1,7 +1,7 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Collapse, Fade, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { CHAT_JOINED, CHAT_MESSAGE, CHAT_NEW } from "~/constants";
+import { CHAT_JOINED, CHAT_MESSAGE, CHAT_NEW, CHAT_TYPING } from "~/constants";
 import useMatchStore from "~/store/matchStore";
 import useUserStore from "~/store/userStore";
 import ChatItem from "./ChatItem";
@@ -15,6 +15,7 @@ interface ChatItem {
 
 const Chat = () => {
   const [chatItems, setItems] = useState<ChatItem[]>([]);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const zustandRoomId = useMatchStore((state) => state.roomId);
   const zustandUsername = useUserStore((state) => state.username);
@@ -51,12 +52,20 @@ const Chat = () => {
     setItems([...chatItems, { ...message, type: "message" }]);
   };
 
-  socket?.on(CHAT_JOINED, joinedChatHandler);
+  const onType = (typing: boolean) => {
+    socket?.emit(CHAT_TYPING, { roomId: zustandRoomId, typing });
+  };
 
+  const chatTypingHandler = (typing: boolean) => {
+    setIsTyping(typing);
+  };
+
+  socket?.on(CHAT_JOINED, joinedChatHandler);
   socket?.on(CHAT_MESSAGE, chatMessageHandler);
+  socket?.on(CHAT_TYPING, chatTypingHandler);
 
   return (
-    <Box>
+    <Flex direction="column" justifyContent="flex-end" flex={1}>
       <Box
         display="flex"
         sx={{ flexDirection: "column", gap: "2px", py: "5px" }}
@@ -68,9 +77,10 @@ const Chat = () => {
             type={i.type}
           />
         ))}
+        {isTyping && <ChatItem belongsToUser={false} type={"typing"} />}
       </Box>
-      <InputBox onSend={sendMessage} />
-    </Box>
+      <InputBox onSend={sendMessage} onType={onType} />
+    </Flex>
   );
 };
 
