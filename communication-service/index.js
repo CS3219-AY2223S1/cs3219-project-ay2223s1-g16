@@ -2,7 +2,13 @@ import express from "express";
 import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { CHAT_JOINED, CHAT_LEAVE, CHAT_MESSAGE, CHAT_NEW } from "./events.js";
+import {
+  CHAT_JOINED,
+  CHAT_LEAVE,
+  CHAT_MESSAGE,
+  CHAT_NEW,
+  CHAT_TYPING,
+} from "./events.js";
 
 const app = express();
 
@@ -27,8 +33,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on(CHAT_MESSAGE, ({ roomId, username, text }) => {
-    console.log("message", username, text, roomId);
     io.to(roomId).emit(CHAT_MESSAGE, { username, text });
+  });
+
+  socket.on(CHAT_TYPING, ({ roomId, typing }) => {
+    console.log("typing");
+    socket.to(roomId).emit(CHAT_TYPING, typing);
   });
 
   socket.on("disconnect", () => {
