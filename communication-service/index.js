@@ -23,11 +23,12 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
   socket.on(CHAT_NEW, ({ roomId, username }) => {
     socket.join(roomId);
-    socket.to(roomId).emit(CHAT_JOINED, username);
+    io.to(roomId).emit(CHAT_JOINED, username);
   });
 
   socket.on(CHAT_MESSAGE, ({ roomId, username, text }) => {
-    socket.to(roomId).emit(CHAT_MESSAGE, { username, text });
+    console.log("message", username, text, roomId);
+    io.to(roomId).emit(CHAT_MESSAGE, { username, text });
   });
 
   socket.on("disconnect", () => {
