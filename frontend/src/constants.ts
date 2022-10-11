@@ -13,3 +13,9 @@ export const CODE_UPDATE = "code:update";
 export const CODE_JOINED = "code:joined";
 export const CODE_LEFT = "code:left";
 export const CODE_LANGUAGE = "code:language";
+
+// Communication Service
+export const CHAT_NEW = "chat:new";
+export const CHAT_JOINED = "chat:joined";
+export const CHAT_MESSAGE = "chat:message";
+export const CHAT_LEAVE = "chat:leave";
