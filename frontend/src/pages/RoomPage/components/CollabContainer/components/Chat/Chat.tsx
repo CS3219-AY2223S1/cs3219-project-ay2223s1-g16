@@ -65,16 +65,17 @@ const Chat = () => {
   socket?.on(CHAT_TYPING, chatTypingHandler);
 
   return (
-    <Flex direction="column" justifyContent="flex-end" flex={1}>
+    <Flex direction="column" justifyContent="flex-end" height="100%">
       <Box
         display="flex"
-        sx={{ flexDirection: "column", gap: "2px", py: "5px" }}
+        sx={{ flexDirection: "column", gap: "3px", my: "5px" }}
+        overflowY="auto"
       >
-        {chatItems.map((i) => (
+        {chatItems.map((item) => (
           <ChatItem
-            text={i.text}
-            belongsToUser={i.username === zustandUsername}
-            type={i.type}
+            text={item.text}
+            belongsToUser={item.username === zustandUsername}
+            type={item.type}
           />
         ))}
         {isTyping && <ChatItem belongsToUser={false} type={"typing"} />}

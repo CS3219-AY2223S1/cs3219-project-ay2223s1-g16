@@ -16,6 +16,7 @@ const ChatItem: React.FC<BubbleProps> = ({ text, belongsToUser, type }) => {
           size="lg"
           sx={{
             alignSelf: belongsToUser ? "flex-end" : "flex-start",
+            py: "8px",
           }}
         >
           {text}
