@@ -3,22 +3,47 @@ import subprocess
 import json
 
 hostName = "localhost"
-serverPort = 8080
+serverPort = 6969
 l = {
     'python' : ["python3", "-c"],
     'js' : ["node", "-e"],
+    'cpp' : ['NOT IMPLEMENTED'],
+    'java' : ['NOT IMPLEMENTED'],
+
 }
+compiled_languages = { 'cpp', 'java' }
+
+def run(l):
+    p = subprocess.run(l, capture_output=True)
+    return p.stdout.decode('utf-8'), p.stderr.decode('utf-8')
 
 def handle_request(req) -> str:
-    if 'src' not in req: return
+    if 'src' not in req: return "Missing source"
+    if 'lang' not in req: return "Missing Language"
     src = req['src']
-    lang = req['lang'] if 'lang' in req else 'python'
+    lang = req['lang']
+    if lang not in l: return "Language not supported"
 
     src = src.replace('"', '\"').replace("'", '\"')
     if not src: return ""
-    p = subprocess.run([*l[lang], src], capture_output=True)
-    res = p.stdout.decode('utf-8')
-    err = p.stderr.decode('utf-8')
+
+
+    if lang in compiled_languages:
+        # create file
+        name, err = run(['safe_touch',src,lang])
+        if err: return "Unable to create file"
+
+        # TODO: refactor
+        if lang == 'cpp': 
+            res, err = run(["g++", name,'-o',name.split('.')[0]])
+            if err: return err
+            res, err = run([name.split('.')[0]])
+        else: # java
+            res, err = run(["java", name])
+
+    else:
+        res, err = run([*l[lang], src])
+
 
     return res if res else err
 
