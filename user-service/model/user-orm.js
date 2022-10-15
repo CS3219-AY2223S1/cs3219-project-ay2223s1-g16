@@ -6,6 +6,7 @@ import {
   getUser,
   deleteUser,
   changePassword,
+  addToHistory,
 } from "./repository.js";
 
 import jwtPackage from "jsonwebtoken";
@@ -14,6 +15,16 @@ const { sign } = jwtPackage;
 const SALT_ROUNDS = 8;
 
 //need to separate orm functions from repository to decouple business logic from persistence
+export async function ormGetUser(username) {
+  try {
+    const user = await getUser(username);
+    return user;
+  } catch (err) {
+    console.log("ERROR: Could not find user");
+    return { err };
+  }
+}
+
 export async function ormCreateUser(username, password) {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -104,6 +115,15 @@ export async function ormChangePassword(username, oldPassword, password) {
     }
   } catch (err) {
     console.log(`ERROR: Failed to update user password.`);
+    return { err };
+  }
+}
+
+export async function ormAddQuestionToUserHistory(user, question) {
+  try {
+    await addToHistory(user, question);
+  } catch (err) {
+    console.log("Failed to add question to user's history");
     return { err };
   }
 }

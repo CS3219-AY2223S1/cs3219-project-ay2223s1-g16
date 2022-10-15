@@ -1,5 +1,6 @@
 import { addPendingMatch, Match, removeMatch } from "./repository.js";
 import { MATCH_FAIL, MATCH_SUCCESS, MATCH_START } from "./events.js";
+import { getQuestionFromQnSvc } from "./external.js";
 
 // TODO: Shift into constants file
 const MATCH_TIMEOUT = 30;
@@ -34,12 +35,23 @@ export async function newMatchHandler({ username, difficulty }) {
     }, MATCH_TIMEOUT * 1000);
   } else {
     clearTimeout(timeout);
+    let question = null;
+    try {
+      question = await getQuestionFromQnSvc(
+        difficulty,
+        pendingMatch.username1,
+        pendingMatch.username2
+      );
+    } catch (err) {
+      console.log(err);
+    }
     pendingMatch.completePendingMatch(username);
     socket.join(pendingMatch.roomid);
     _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, {
       roomId: pendingMatch.roomid,
       usernameOne: pendingMatch.username1,
       usernameTwo: pendingMatch.username2,
+      question: question,
     });
   }
 }
