@@ -1,10 +1,9 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import subprocess
+import json
 
+hostName = "localhost"
+serverPort = 8080
 l = {
     'python' : ["python3", "-c"],
     'js' : ["node", "-e"],
@@ -23,37 +22,30 @@ def handle_request(req) -> str:
 
     return res if res else err
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import json
-
-hostName = "localhost"
-serverPort = 8080
-
-class MyServer(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        with open("index.html", "r") as f:
-            for x in f:
-                self.wfile.write(bytes(x,'utf-8'))
+class Server(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+            self.send_response(200, "ok")
+            self.send_header('Access-Control-Allow-Origin', "*")
+            self.send_header('Access-Control-Allow-Methods', '*')
+            self.send_header("Access-Control-Allow-Headers", "*")
+            self.end_headers()
 
     def do_POST(self):
         self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', "*")
         self.send_header("Content-type", "text/html")
         self.end_headers()
         req = json.loads(self.rfile.read(int(self.headers.get('Content-Length'))))
 
         res = handle_request(req)
-        print(res)
         self.wfile.write(bytes(json.dumps(
             {
                 "result": res
             }
         ),"utf-8"))
-# Press the green button in the gutter to run the script.
+
 if __name__ == '__main__':
-    webServer = HTTPServer((hostName, serverPort), MyServer)
+    webServer = HTTPServer((hostName, serverPort), Server)
     print("Server started http://%s:%s" % (hostName, serverPort))
 
     try:
@@ -63,5 +55,3 @@ if __name__ == '__main__':
 
     webServer.server_close()
     print("Server stopped.")
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
