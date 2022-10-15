@@ -9,8 +9,7 @@ WORKDIR "$APP_HOME"
 COPY go.mod .
 RUN go mod download
 
-RUN echo "\n\
-#!/bin/bash \n\
+RUN echo "#!/bin/bash \n\
 DIRS=\"cmd pkg\" \n\
 pidtree() { \n\
   declare -A CHILDS \n\
@@ -51,5 +50,5 @@ while true; do \n\
 done \n\
 " > /bin/hotload
 RUN chmod +x /bin/hotload
-
+COPY . .
 CMD ["hotload", "go", "run", "cmd/main/main.go"]
