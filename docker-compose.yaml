@@ -18,8 +18,6 @@ services:
       dockerfile: ../node.dockerfile
     command: npm run dev
     network_mode: host
-    volumes:
-      - ./matching-service/:/usr/app/
   collab-svc:
     build: 
       context: ./collab-service
