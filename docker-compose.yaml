@@ -1,0 +1,31 @@
+version: '3'
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+  user-svc:
+    build: 
+      context: ./user-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+  matching-svc:
+    build: 
+      context: ./matching-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+  collab-svc:
+    build: 
+      context: ./collab-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
+  question-svc:
+    build:
+      context: ./question-service
+      dockerfile: ../go.dockerfile
+    network_mode: host

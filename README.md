@@ -12,3 +12,7 @@ This is a template repository for CS3219 project.
 ## Frontend
 1. Install npm packages using `npm i`.
 2. Run Frontend using `npm start`.
+
+# All
+ 1. Run kafka using `docker-compose -f ./kafka/docker-compose.yml up -d`
+ 2. Wait for Kafka to be fully initialized and run the rest of the microservices using `docker-compose up`
