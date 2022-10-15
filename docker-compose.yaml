@@ -31,3 +31,9 @@ services:
       context: ./question-service
       dockerfile: ../go.dockerfile
     network_mode: host
+  code-runner-svc:
+    build:
+      context: ./coderunner-service
+    network_mode: host
+    
+
