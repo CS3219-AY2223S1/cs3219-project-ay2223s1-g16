@@ -45,7 +45,7 @@ def handle_request(req) -> str:
         res, err = run([*l[lang], src])
 
 
-    return res if res else err
+    return { "result" : err if err else res, "iserror": bool(err) }
 
 class Server(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
@@ -61,13 +61,7 @@ class Server(BaseHTTPRequestHandler):
         self.send_header("Content-type", "text/html")
         self.end_headers()
         req = json.loads(self.rfile.read(int(self.headers.get('Content-Length'))))
-
-        res = handle_request(req)
-        self.wfile.write(bytes(json.dumps(
-            {
-                "result": res
-            }
-        ),"utf-8"))
+        self.wfile.write(bytes(json.dumps(handle_request(req)),"utf-8"))
 
 if __name__ == '__main__':
     webServer = HTTPServer((hostName, serverPort), Server)

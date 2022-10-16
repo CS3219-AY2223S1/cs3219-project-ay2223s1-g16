@@ -27,7 +27,7 @@ import useUpdateEffect from "~/hooks/useUpdateEffect";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');
-  const [codeResult, setCodeResult] = useState<string>('Results Details');
+  const [codeResult, setCodeResult] = useState<{result: string,iserror: boolean}>({result:"",iserror:false});
   const [socket, setSocket] = useState<Socket | null>(null);
   const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
   const [language, setLanguage] = useState<string>("Python");
@@ -121,7 +121,7 @@ const PeerPrepCodeMirror = () => {
       redirect: 'follow'
     })
     .then(response => response.json())
-    .then(result => setCodeResult(result['result']))
+    .then(result => setCodeResult(result))
   }
 
   socket?.on(CODE_JOINED, codeJoinedHandler);

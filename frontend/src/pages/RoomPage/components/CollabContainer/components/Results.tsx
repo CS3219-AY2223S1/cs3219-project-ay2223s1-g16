@@ -1,11 +1,16 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 
-const Results = ({codeResult}: {codeResult:string}) => {
+const Results = ({codeResult}: {codeResult:{ result: string, iserror: boolean}}) => {
   return (
     <Box padding={2}>
       <Heading>Results</Heading>
-      {/* The following is to ensure that the newlines in the results are display properly */}
-      <Text>{codeResult.split('\n').map(str => <p>{str}</p>)}</Text> 
+      {
+        // Font has to be monospaced to allow error messages to be formatted properly
+        // whitespace=pre preserves whitespaces
+        codeResult.iserror ?
+        <Text whiteSpace={"pre"} fontFamily='monospace' color='tomato' >{`${codeResult.result}`}</Text> :
+        <Text whiteSpace={"pre"} fontFamily='monospace' >{`${codeResult.result}`}</Text>
+      }
     </Box>
   );
 };
