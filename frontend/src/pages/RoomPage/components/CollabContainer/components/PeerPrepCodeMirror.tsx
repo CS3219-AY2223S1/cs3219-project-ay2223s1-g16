@@ -24,6 +24,7 @@ import Results from "./Results";
 import LanguageMenu from "./LanguageMenu";
 import { LanguageSupport } from "@codemirror/language";
 import useUpdateEffect from "~/hooks/useUpdateEffect";
+import { coderunnerSvcAxiosClient } from "~/utils/request";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');
@@ -109,19 +110,12 @@ const PeerPrepCodeMirror = () => {
     "Javascript": "js",
     "Java": "java",
   }
-  // To send code to code-runner-svc
   const submitCode = () => {
-    fetch("http://localhost:6969", {
-      method: 'POST',
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({
-          "src": code,
-          "lang": mapping[language]
-      }),
-      redirect: 'follow'
+    coderunnerSvcAxiosClient.post("/", {
+      "src": code,
+      "lang": mapping[language]
     })
-    .then(response => response.json())
-    .then(result => setCodeResult(result))
+    .then(result => setCodeResult(result.data))
   }
 
   socket?.on(CODE_JOINED, codeJoinedHandler);

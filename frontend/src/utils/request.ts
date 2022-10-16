@@ -8,6 +8,10 @@ const qnSvcAxiosClient = axios.create({
   baseURL: import.meta.env.VITE_QN_SVC_URL,
 });
 
+const coderunnerSvcAxiosClient = axios.create({
+  baseURL: import.meta.env.VITE_CODERUNNER_SVC_URL,
+});
+
 const requests = (api: any) => {
   return {
     get: (url: string) => {
@@ -42,4 +46,4 @@ const requests = (api: any) => {
 
 const userSvcClient = requests(userSvcAxiosClient);
 const qnSvcClient = requests(qnSvcAxiosClient);
-export { userSvcClient, qnSvcClient };
+export { userSvcClient, qnSvcClient, coderunnerSvcAxiosClient };
