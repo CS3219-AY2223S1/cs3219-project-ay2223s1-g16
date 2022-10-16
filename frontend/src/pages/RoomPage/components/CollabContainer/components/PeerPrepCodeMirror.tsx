@@ -6,7 +6,7 @@ import { python } from "@codemirror/lang-python";
 import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
-import { Flex, Box, useToast } from "@chakra-ui/react";
+import { Flex, Box, useToast, Button } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
 import { debounce } from "lodash";
 
@@ -27,6 +27,7 @@ import useUpdateEffect from "~/hooks/useUpdateEffect";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');
+  const [codeResult, setCodeResult] = useState<string>('Results Details');
   const [socket, setSocket] = useState<Socket | null>(null);
   const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
   const [language, setLanguage] = useState<string>("Python");
@@ -100,6 +101,28 @@ const PeerPrepCodeMirror = () => {
     }
   };
 
+  const submitCode = (src :string) => {
+    const mapping : {[key:string]: string} = {
+      "Python": "python",
+      "C++": "cpp",
+      "Javascript": "js",
+      "Java": "java",
+    }
+
+    console.log(src)
+    fetch("http://localhost:6969", {
+      method: 'POST',
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+          "src": src,
+          "lang": mapping[language]
+      }),
+      redirect: 'follow'
+    })
+    .then(response => response.json())
+    .then(result => setCodeResult(result['result']))
+  }
+
   socket?.on(CODE_JOINED, codeJoinedHandler);
 
   socket?.on(CODE_LEFT, codeLeftHandler);
@@ -134,7 +157,8 @@ const PeerPrepCodeMirror = () => {
           onChange={onChange}
         />
       </Box>
-      <Results />
+      <Button onClick={() => submitCode(code)}>Submit</Button>
+      <Results codeResult={codeResult}/>
     </Flex>
   );
 };

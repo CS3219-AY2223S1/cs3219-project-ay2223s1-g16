@@ -1,10 +1,10 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 
-const Results = () => {
+const Results = ({codeResult}:any) => {
   return (
     <Box padding={2}>
       <Heading>Results</Heading>
-      <Text>Results Details</Text>
+      <Text>{codeResult}</Text>
     </Box>
   );
 };
