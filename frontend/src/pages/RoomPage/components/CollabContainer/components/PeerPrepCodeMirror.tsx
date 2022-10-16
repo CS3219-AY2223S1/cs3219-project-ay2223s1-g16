@@ -42,6 +42,7 @@ const PeerPrepCodeMirror = () => {
 
   const onChange = (value: string, viewUpdate: ViewUpdate) => {
     if (value !== code) {
+      setCode(value)
       debouncedUpdate(value, viewUpdate);
     }
   };
@@ -110,7 +111,6 @@ const PeerPrepCodeMirror = () => {
   }
   // To send code to code-runner-svc
   const submitCode = () => {
-    console.log(code)
     fetch("http://localhost:6969", {
       method: 'POST',
       headers: {"Content-Type":"application/json"},

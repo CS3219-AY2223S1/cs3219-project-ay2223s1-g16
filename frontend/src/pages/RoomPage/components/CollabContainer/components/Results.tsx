@@ -4,7 +4,8 @@ const Results = ({codeResult}: {codeResult:string}) => {
   return (
     <Box padding={2}>
       <Heading>Results</Heading>
-      <Text>{codeResult}</Text>
+      {/* The following is to ensure that the newlines in the results are display properly */}
+      <Text>{codeResult.split('\n').map(str => <p>{str}</p>)}</Text> 
     </Box>
   );
 };
