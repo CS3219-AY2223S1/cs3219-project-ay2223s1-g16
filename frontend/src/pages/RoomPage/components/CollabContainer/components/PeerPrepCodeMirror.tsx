@@ -101,20 +101,21 @@ const PeerPrepCodeMirror = () => {
     }
   };
 
-  const submitCode = (src :string) => {
-    const mapping : {[key:string]: string} = {
-      "Python": "python",
-      "C++": "cpp",
-      "Javascript": "js",
-      "Java": "java",
-    }
-
-    console.log(src)
+  // Mappings to adhere to code-runner-svc 
+  const mapping : {[key:string]: string} = {
+    "Python": "python",
+    "C++": "cpp",
+    "Javascript": "js",
+    "Java": "java",
+  }
+  // To send code to code-runner-svc
+  const submitCode = () => {
+    console.log(code)
     fetch("http://localhost:6969", {
       method: 'POST',
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({
-          "src": src,
+          "src": code,
           "lang": mapping[language]
       }),
       redirect: 'follow'
@@ -157,7 +158,7 @@ const PeerPrepCodeMirror = () => {
           onChange={onChange}
         />
       </Box>
-      <Button onClick={() => submitCode(code)}>Submit</Button>
+      <Button onClick={() => submitCode()}>Submit</Button>
       <Results codeResult={codeResult}/>
     </Flex>
   );
