@@ -33,7 +33,6 @@ export async function newMatchHandler({ username, difficulty }) {
 
       if (m != undefined && m.ispending) {
         socket.emit(MATCH_FAIL);
-        console.log("timeout cause remove match",m)
         removeMatch(username);
       }
     }, MATCH_TIMEOUT * 1000);
