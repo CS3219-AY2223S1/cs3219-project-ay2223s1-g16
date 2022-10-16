@@ -1,6 +1,6 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 
-const Results = ({codeResult}:any) => {
+const Results = ({codeResult}: {codeResult:string}) => {
   return (
     <Box padding={2}>
       <Heading>Results</Heading>
