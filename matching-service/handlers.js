@@ -10,8 +10,11 @@ export function setIo(io) {
   _io = io;
 }
 
+
+// If we scale horizontally, we need to rethink this ds
+const timeout_store = {}
+
 export async function newMatchHandler({ username, difficulty }) {
-  let timeout;
   const socket = this;
   socket.username = username;
 
@@ -25,16 +28,17 @@ export async function newMatchHandler({ username, difficulty }) {
     socket.emit(MATCH_START, { timeout: MATCH_TIMEOUT });
 
     // Server-side Timer logic
-    timeout = setTimeout(async () => {
+    timeout_store[username] = setTimeout(async () => {
       await m.reload().catch(() => undefined); // undefined if not found
 
       if (m != undefined && m.ispending) {
         socket.emit(MATCH_FAIL);
+        console.log("timeout cause remove match",m)
         removeMatch(username);
       }
     }, MATCH_TIMEOUT * 1000);
   } else {
-    clearTimeout(timeout);
+    clearTimeout(timeout_store[pendingMatch.username1])
     let question = null;
     try {
       question = await getQuestionFromQnSvc(
@@ -57,7 +61,7 @@ export async function newMatchHandler({ username, difficulty }) {
 }
 
 export async function leaveMatchHandler({ roomid }) {
-  await Match.destroy({ where: { roomid: roomid } });
+   await Match.destroy({ where: { roomid: roomid } });
   // TODO: Should i make the sockets leave the room?
   this.emit(MATCH_FAIL);
   _io.to(Number(roomid)).emit(MATCH_FAIL);
