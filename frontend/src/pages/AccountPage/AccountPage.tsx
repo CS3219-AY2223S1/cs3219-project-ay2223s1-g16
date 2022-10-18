@@ -22,6 +22,7 @@ const AccountPage = () => {
   const toast = useToast();
   const zustandUsername = useUserStore((state) => state.username);
   const zustandLogout = useUserStore((state) => state.logout);
+  const jwtToken = useUserStore((state) => state.token);
   const {
     isOpen: pwIsOpen,
     onOpen: pwOnOpen,
@@ -35,7 +36,10 @@ const AccountPage = () => {
 
   const fetchHistory = async () => {
     try {
-      const response = await userSvcClient.get(`/history/${zustandUsername}`);
+      const response = await userSvcClient.get(
+        `/history/${zustandUsername}`,
+        jwtToken
+      );
       return response.data;
     } catch (err) {
       toast({

@@ -1,8 +1,17 @@
 import { Box, Heading, Text, Flex } from "@chakra-ui/react";
-import programmingSvg from "~/assets/undraw_programming.svg";
+import { Navigate } from "react-router-dom";
+
+import useUserStore from "~/store/userStore";
 import { Login } from "./components/Login";
+import programmingSvg from "~/assets/undraw_programming.svg";
 
 const LoginPage = () => {
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <Flex
       direction={"row"}
