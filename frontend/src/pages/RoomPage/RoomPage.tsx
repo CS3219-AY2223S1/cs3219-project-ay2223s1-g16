@@ -29,7 +29,7 @@ const RoomPage = () => {
     }
   }, [isOtherUserDisconnected]);
 
-  const navigateToHome = () => navigate("/home");
+  const navigateToHome = () => navigate("/");
 
   const leaveRoomHandler = () => {
     if (!isOtherUserDisconnected) {

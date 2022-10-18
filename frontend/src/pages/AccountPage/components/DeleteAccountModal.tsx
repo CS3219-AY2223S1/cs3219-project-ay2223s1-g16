@@ -3,7 +3,6 @@ import {
   Modal,
   ModalOverlay,
   FormControl,
-  FormLabel,
   Input,
   ModalHeader,
   ModalBody,
@@ -16,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 
 import { useRef, useState } from "react";
-import zustand from "zustand";
 
 import useUserStore from "~/store/userStore";
 
@@ -32,6 +30,7 @@ const DeleteAccountModal = ({
   const toast = useToast();
   const zustandUsername = useUserStore((state) => state.username);
   const zustandLogout = useUserStore((state) => state.logout);
+  const jwtToken = useUserStore((state) => state.token);
   const [confirmationInput, setConfirmationInput] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const isInputTouched = useRef<boolean>(false);
@@ -39,9 +38,13 @@ const DeleteAccountModal = ({
   const onSubmitHandler = async () => {
     setIsSubmitting(true);
     try {
-      const response = await userSvcClient.post("/delete", {
-        username: zustandUsername,
-      });
+      const response = await userSvcClient.post(
+        "/delete",
+        {
+          username: zustandUsername,
+        },
+        jwtToken
+      );
       const { message } = response.data;
       toast({
         title: message,
@@ -55,6 +58,8 @@ const DeleteAccountModal = ({
         status: "error",
         isClosable: true,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
