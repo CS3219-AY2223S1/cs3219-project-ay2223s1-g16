@@ -50,7 +50,7 @@ const Question = () => {
         >
           {difficulty}
         </Badge>
-        <Text overflowY="auto" flex="1 0 0" width="100%">
+        <Text whiteSpace="pre-wrap" overflowY="auto" flex="1 0 0" width="100%">
           {description}
         </Text>
         <Accordion allowToggle width={"100%"}>
