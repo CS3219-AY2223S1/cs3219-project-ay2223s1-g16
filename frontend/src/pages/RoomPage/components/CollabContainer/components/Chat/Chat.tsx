@@ -1,7 +1,7 @@
-import { Box, Collapse, Fade, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { CHAT_JOINED, CHAT_MESSAGE, CHAT_NEW, CHAT_TYPING } from "~/constants";
+import { CHAT_MESSAGE, CHAT_NEW, CHAT_TYPING } from "~/constants";
 import useMatchStore from "~/store/matchStore";
 import useUserStore from "~/store/userStore";
 import ChatItem from "./ChatItem";
@@ -41,13 +41,6 @@ const Chat = () => {
     });
   };
 
-  const joinedChatHandler = (username: string) => {
-    setItems([
-      ...chatItems,
-      { username, text: `${username} joined the chat`, type: "notice" },
-    ]);
-  };
-
   const chatMessageHandler = (message: { username: string; text: string }) => {
     setItems([...chatItems, { ...message, type: "message" }]);
   };
@@ -60,7 +53,6 @@ const Chat = () => {
     setIsTyping(typing);
   };
 
-  socket?.on(CHAT_JOINED, joinedChatHandler);
   socket?.on(CHAT_MESSAGE, chatMessageHandler);
   socket?.on(CHAT_TYPING, chatTypingHandler);
 
