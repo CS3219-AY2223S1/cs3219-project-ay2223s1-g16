@@ -15,15 +15,10 @@ import NotFoundPage from "~/pages/NotFoundPage";
 import AccountPage from "~/pages/AccountPage/AccountPage";
 import CollabPage from "~/pages/CollabPage/CollabPage";
 
-// Helper Component
-interface Props {
-  children: React.ReactNode;
-}
-
 const PrivateRoute = () => {
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
-  return !isAuthenticated ? <Navigate to="/" /> : <Outlet />;
+  return !isAuthenticated ? <Navigate to="/login" /> : <Outlet />;
 };
 
 // Main Component
@@ -31,10 +26,10 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route element={<PrivateRoute />}>
           <Route element={<Layout />}>
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/room" element={<RoomPage />} />
             <Route path="/account" element={<AccountPage />} />
           </Route>
