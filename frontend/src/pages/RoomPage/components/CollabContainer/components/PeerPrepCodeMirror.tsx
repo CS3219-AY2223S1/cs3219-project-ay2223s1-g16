@@ -6,7 +6,7 @@ import { python } from "@codemirror/lang-python";
 import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
-import { Flex, Box, useToast } from "@chakra-ui/react";
+import { Flex, Box, useToast, Button } from "@chakra-ui/react";
 import { io, Socket } from "socket.io-client";
 import { debounce } from "lodash";
 
@@ -24,9 +24,11 @@ import Results from "./Results";
 import LanguageMenu from "./LanguageMenu";
 import { LanguageSupport } from "@codemirror/language";
 import useUpdateEffect from "~/hooks/useUpdateEffect";
+import { coderunnerSvcAxiosClient } from "~/utils/request";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');
+  const [codeResult, setCodeResult] = useState<{result: string,iserror: boolean}>({result:"",iserror:false});
   const [socket, setSocket] = useState<Socket | null>(null);
   const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
   const [language, setLanguage] = useState<string>("Python");
@@ -41,6 +43,7 @@ const PeerPrepCodeMirror = () => {
 
   const onChange = (value: string, viewUpdate: ViewUpdate) => {
     if (value !== code) {
+      setCode(value)
       debouncedUpdate(value, viewUpdate);
     }
   };
@@ -100,6 +103,21 @@ const PeerPrepCodeMirror = () => {
     }
   };
 
+  // Mappings to adhere to code-runner-svc 
+  const mapping : {[key:string]: string} = {
+    "Python": "python",
+    "C++": "cpp",
+    "Javascript": "js",
+    "Java": "java",
+  }
+  const submitCode = () => {
+    coderunnerSvcAxiosClient.post("/", {
+      "src": code,
+      "lang": mapping[language]
+    })
+    .then(result => setCodeResult(result.data))
+  }
+
   socket?.on(CODE_JOINED, codeJoinedHandler);
 
   socket?.on(CODE_LEFT, codeLeftHandler);
@@ -134,7 +152,8 @@ const PeerPrepCodeMirror = () => {
           onChange={onChange}
         />
       </Box>
-      <Results />
+      <Button onClick={() => submitCode()}>Submit</Button>
+      <Results codeResult={codeResult}/>
     </Flex>
   );
 };
