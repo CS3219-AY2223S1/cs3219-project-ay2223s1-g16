@@ -12,13 +12,13 @@ const CollabContainer = () => {
         justifyContent="space-between"
         minWidth="300px"
         flex={1}
-        height={"100%"}
+        height="100%"
       >
-        <Box flex={1} p={6} pb={0}>
+        <Box height="50%" p={6} pb={0}>
           <Question />
         </Box>
         <Divider />
-        <Box flex={1} p={6} pt={0}>
+        <Box height="50%" p={6} pt={0}>
           <Chat />
         </Box>
       </Flex>

@@ -50,7 +50,9 @@ const Question = () => {
         >
           {difficulty}
         </Badge>
-        <Text>{description}</Text>
+        <Text overflowY="auto" flex="1 0 0" width="100%">
+          {description}
+        </Text>
         <Accordion allowToggle width={"100%"}>
           <AccordionItem>
             <h2>

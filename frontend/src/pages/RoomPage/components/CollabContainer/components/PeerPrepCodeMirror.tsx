@@ -28,7 +28,10 @@ import { coderunnerSvcAxiosClient } from "~/utils/request";
 
 const PeerPrepCodeMirror = () => {
   const [code, setCode] = useState<string>('print("hello world!")');
-  const [codeResult, setCodeResult] = useState<{result: string,iserror: boolean}>({result:"",iserror:false});
+  const [codeResult, setCodeResult] = useState<{
+    result: string;
+    iserror: boolean;
+  }>({ result: "", iserror: false });
   const [socket, setSocket] = useState<Socket | null>(null);
   const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
   const [language, setLanguage] = useState<string>("Python");
@@ -43,7 +46,7 @@ const PeerPrepCodeMirror = () => {
 
   const onChange = (value: string, viewUpdate: ViewUpdate) => {
     if (value !== code) {
-      setCode(value)
+      setCode(value);
       debouncedUpdate(value, viewUpdate);
     }
   };
@@ -103,20 +106,21 @@ const PeerPrepCodeMirror = () => {
     }
   };
 
-  // Mappings to adhere to code-runner-svc 
-  const mapping : {[key:string]: string} = {
-    "Python": "python",
+  // Mappings to adhere to code-runner-svc
+  const mapping: { [key: string]: string } = {
+    Python: "python",
     "C++": "cpp",
-    "Javascript": "js",
-    "Java": "java",
-  }
+    Javascript: "js",
+    Java: "java",
+  };
   const submitCode = () => {
-    coderunnerSvcAxiosClient.post("/", {
-      "src": code,
-      "lang": mapping[language]
-    })
-    .then(result => setCodeResult(result.data))
-  }
+    coderunnerSvcAxiosClient
+      .post("/", {
+        src: code,
+        lang: mapping[language],
+      })
+      .then((result) => setCodeResult(result.data));
+  };
 
   socket?.on(CODE_JOINED, codeJoinedHandler);
 
@@ -132,13 +136,14 @@ const PeerPrepCodeMirror = () => {
 
   return (
     <Flex
-      direction={"column"}
-      padding={2}
+      direction="column"
+      px={2}
       minWidth="300px"
       flex={1}
       justifyContent="space-between"
+      height="100%"
     >
-      <Box>
+      <Flex direction="column" height="50%">
         <LanguageMenu
           language={language}
           languages={Array.from(languages.keys())}
@@ -150,10 +155,11 @@ const PeerPrepCodeMirror = () => {
           theme={sublime}
           extensions={[languageExt]}
           onChange={onChange}
+          style={{ flex: "1 0 0", overflowY: "auto", marginBottom: "5px" }}
         />
-      </Box>
-      <Button onClick={() => submitCode()}>Submit</Button>
-      <Results codeResult={codeResult}/>
+        <Button onClick={() => submitCode()}>Submit</Button>
+      </Flex>
+      <Results codeResult={codeResult} />
     </Flex>
   );
 };
