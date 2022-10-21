@@ -58,11 +58,7 @@ const Chat = () => {
 
   return (
     <Flex direction="column" justifyContent="flex-end" height="100%">
-      <Box
-        display="flex"
-        sx={{ flexDirection: "column", gap: "3px", my: "5px" }}
-        overflowY="auto"
-      >
+      <Flex direction="column" gap="3px" my="5px" overflowY="auto">
         {chatItems.map((item) => (
           <ChatItem
             text={item.text}
@@ -71,7 +67,7 @@ const Chat = () => {
           />
         ))}
         {isTyping && <ChatItem belongsToUser={false} type={"typing"} />}
-      </Box>
+      </Flex>
       <InputBox onSend={sendMessage} onType={onType} />
     </Flex>
   );
