@@ -64,8 +64,12 @@ const HistoryList = ({
         {history.map((qn, idx) => {
           const { _id, title } = qn;
           return (
-            <Box onClick={() => onSelect(idx, _id)} sx={{ cursor: "pointer" }}>
-              <Text key={_id}>{`${idx + 1}. ${title}`}</Text>
+            <Box
+              key={_id}
+              onClick={() => onSelect(idx, _id)}
+              sx={{ cursor: "pointer" }}
+            >
+              <Text>{`${idx + 1}. ${title}`}</Text>
               <Divider sx={{ my: 2 }} />
             </Box>
           );

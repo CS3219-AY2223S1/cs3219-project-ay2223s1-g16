@@ -3,6 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { qnSvcClient } from "~/utils/request";
 
 const getQuestionById = async (id: string, jwtToken: string) => {
+  if (id === "") {
+    return {
+      title: "",
+      description: "",
+      topics: [],
+    };
+  }
+
   const response = await qnSvcClient.get(`/questions/${id}`, jwtToken);
   return response.data;
 };
