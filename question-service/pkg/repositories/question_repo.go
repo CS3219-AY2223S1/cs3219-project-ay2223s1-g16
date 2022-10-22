@@ -62,3 +62,25 @@ func (questionRepo *QuestionRepo) SampleQnByDifficulty(ctx context.Context, diff
 		return &question[0], nil
 	}
 }
+
+func (questionRepo *QuestionRepo) FindQuestionById(ctx context.Context, id string) (*models.Question, error) {
+	qnId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, errors.New("Invalid id")
+	}
+
+	result := questionRepo.db.FindOne(ctx, bson.D{{"_id", qnId}})
+	if err = result.Err(); err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, errors.New("Question could not be found")
+		} else {
+			panic(err)
+		}
+	}
+
+	question := models.Question{}
+
+	result.Decode(&question)
+
+	return &question, nil
+}

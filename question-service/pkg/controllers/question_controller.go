@@ -22,6 +22,7 @@ func InitQuestionController(repo *repositories.QuestionRepo) *chi.Mux {
 	r.Route("/questions", func(r chi.Router) {
 		r.Post("/", addQuestion)
 		r.Get("/{difficulty}/{userOne}/{userTwo}", getRandomQnByDifficulty)
+		r.Get("/{id}", getQuestionById)
 	})
 	return r
 }
@@ -56,6 +57,17 @@ func getRandomQnByDifficulty(w http.ResponseWriter, r *http.Request) {
 	err = event.SendMessage(msg.Id, msg)
 	if err != nil {
 		log.Printf("Failed to publish user question message: %s", err.Error())
+	}
+
+	utils.JsonResponse(w, http.StatusOK, result)
+}
+
+func getQuestionById(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	result, err := questionRepo.FindQuestionById(r.Context(), id)
+	if err != nil {
+		utils.ErrorResponse(w, 404, err.Error())
+		return
 	}
 
 	utils.JsonResponse(w, http.StatusOK, result)
