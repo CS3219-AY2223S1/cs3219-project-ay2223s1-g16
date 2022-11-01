@@ -5,7 +5,8 @@ services:
       context: ./frontend
       dockerfile: ../node.dockerfile
     command: npm run dev
-    network_mode: host
+    ports:
+      - "5173:5173"
     # Uncomment the volume portion to mount your own filesystem on 
     # so you dont have to always docker-compose up --rebuild when developing
     # volumes:
@@ -15,13 +16,15 @@ services:
       context: ./user-service
       dockerfile: ../node.dockerfile
     command: npm run dev
-    network_mode: host
+    ports:
+      - "8000:8000"
   matching-svc:
     build: 
       context: ./matching-service
       dockerfile: ../node.dockerfile
     command: npm run dev
-    network_mode: host
+    ports:
+      - "8001:8001"
   collab-svc:
     build: 
       context: ./collab-service
@@ -32,16 +35,17 @@ services:
     build:
       context: ./question-service
       dockerfile: ../go.dockerfile
-    network_mode: host
+    ports:
+      - "3000:3000"
   communication-svc:
     build:
       context: ./communication-service
       dockerfile: ../node.dockerfile
     command: npm run dev
-    network_mode: host
+    ports:
+      - "8003:8003"
   code-runner-svc:
     build:
       context: ./coderunner-service
-    network_mode: host
-    
-
+    ports:
+      - "6969:6969"
