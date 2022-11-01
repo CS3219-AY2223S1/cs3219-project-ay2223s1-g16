@@ -10,7 +10,7 @@ metadata:
   name: zookeeper-1
 spec:
   ports:
-    - name: "22181"
+    - name: zookeeper-1
       port: 22181
       targetPort: 2181
   selector:

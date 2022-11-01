@@ -61,7 +61,7 @@ ingress:
           service:
             name: kafka-1
             port:
-              name: "29092"
+              name: kafka-1
 
 frontend:
   enabled: false

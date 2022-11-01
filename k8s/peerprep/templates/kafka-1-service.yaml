@@ -10,7 +10,7 @@ metadata:
   name: kafka-1
 spec:
   ports:
-    - name: "29092"
+    - name: kafka-1
       port: 29092
       targetPort: 29092
   selector:
