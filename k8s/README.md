@@ -49,7 +49,7 @@ Go to the cloud console on GKE.
 
 We need to authenticate first:
 
-`gcloud auth application-default print-access-token | helm registry login -u oauth2accesstoken \ --password-stdin https://asia-southeast1-docker.pkg.dev`
+`gcloud auth application-default print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://asia-southeast1-docker.pkg.dev`
 
 We can then install the chart:
 

@@ -47,7 +47,7 @@ ingress:
           service:
             name: peerprep-communication-svc
             port:
-              name: communication-svc
+              name: comm-svc
       - path: /api/question
         pathType: Prefix
         backend:
@@ -158,7 +158,7 @@ communication_svc:
       tag: 1.0.0
 
     ports:
-      name: communication-svc
+      name: comm-svc
       containerPort: 8080
 
   service:
