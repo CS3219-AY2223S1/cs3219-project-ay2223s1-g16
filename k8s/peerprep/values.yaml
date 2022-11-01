@@ -65,7 +65,7 @@ ingress:
 
 frontend:
   enabled: false
-  replicaCount: 3
+  replicaCount: 1
 
   deployment:
     image:
@@ -82,7 +82,7 @@ frontend:
 
 user_svc:
   enabled: true
-  replicaCount: 3
+  replicaCount: 1
 
   deployment:
     image:
@@ -99,7 +99,7 @@ user_svc:
 
 matching_svc:
   enabled: true
-  replicaCount: 3
+  replicaCount: 1
 
   deployment:
     image:
@@ -116,7 +116,7 @@ matching_svc:
 
 coderunner_svc:
   enabled: true
-  replicaCount: 3
+  replicaCount: 1
 
   deployment:
     image:
@@ -133,7 +133,7 @@ coderunner_svc:
 
 collab_svc:
   enabled: true
-  replicaCount: 3
+  replicaCount: 1
 
   deployment:
     image:
@@ -150,7 +150,7 @@ collab_svc:
 
 communication_svc:
   enabled: true
-  replicaCount: 3
+  replicaCount: 1
 
   deployment:
     image:
@@ -167,7 +167,7 @@ communication_svc:
 
 question_svc:
   enabled: true
-  replicaCount: 3
+  replicaCount: 1
 
   deployment:
     image:
