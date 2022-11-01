@@ -12,10 +12,19 @@ l = {
 
 }
 compiled_languages = { 'cpp', 'java' }
+TIMEOUT = 10 # timeout for running user programs
 
 def run(l):
-    p = subprocess.run(l, capture_output=True)
-    return p.stdout.decode('utf-8'), p.stderr.decode('utf-8')
+    output = None
+    err = None
+    try:
+        output = subprocess.check_output(l,  stderr=subprocess.STDOUT, timeout=TIMEOUT).decode('utf-8')
+    except subprocess.CalledProcessError as e:
+        err = e.output.decode('utf-8')
+    except subprocess.TimeoutExpired as e:
+        err = f"Program Timed out after {timeout} seconds"
+
+    return output, err
 
 def handle_request(req) -> str:
     if 'src' not in req: return "Missing source"
