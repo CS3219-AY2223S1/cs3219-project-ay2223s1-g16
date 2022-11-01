@@ -33,6 +33,12 @@ services:
       context: ./question-service
       dockerfile: ../go.dockerfile
     network_mode: host
+  communication-svc:
+    build:
+      context: ./communication-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    network_mode: host
   code-runner-svc:
     build:
       context: ./coderunner-service
