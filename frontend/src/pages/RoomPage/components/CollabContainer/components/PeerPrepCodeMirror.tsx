@@ -35,6 +35,7 @@ const PeerPrepCodeMirror = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
   const [language, setLanguage] = useState<string>("Python");
+  const [isRunning, setIsRunning] = useState<Boolean>(false);
   const toast = useToast();
   const zustandRoomId = useMatchStore((state) => state.roomId);
   const zustandUsername = useUserStore((state) => state.username);
@@ -114,12 +115,23 @@ const PeerPrepCodeMirror = () => {
     Java: "java",
   };
   const submitCode = () => {
+    setIsRunning(true);
     coderunnerSvcAxiosClient
       .post("/", {
         src: code,
         lang: mapping[language],
       })
-      .then((result) => setCodeResult(result.data));
+      .then((result) => {
+		  if (!result.data.iserror && result.data.result == "") {
+			  setCodeResult({
+				result: "<no output to stdout>",
+				iserror: false
+				})
+		  } else {
+			  setCodeResult(result.data);
+		  }
+		  setIsRunning(false);
+	  });
   };
 
   socket?.on(CODE_JOINED, codeJoinedHandler);
@@ -159,7 +171,7 @@ const PeerPrepCodeMirror = () => {
         />
         <Button onClick={() => submitCode()}>Submit</Button>
       </Flex>
-      <Results codeResult={codeResult} />
+      <Results codeResult={codeResult} isRunning={isRunning} />
     </Flex>
   );
 };

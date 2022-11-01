@@ -22,7 +22,7 @@ def run(l):
     except subprocess.CalledProcessError as e:
         err = e.output.decode('utf-8')
     except subprocess.TimeoutExpired as e:
-        err = f"Program Timed out after {timeout} seconds"
+        err = f"Program Timed out after {TIMEOUT} seconds"
 
     return output, err
 
