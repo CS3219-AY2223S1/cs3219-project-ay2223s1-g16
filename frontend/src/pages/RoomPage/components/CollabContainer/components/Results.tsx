@@ -1,13 +1,18 @@
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text, Spinner } from "@chakra-ui/react";
 
 const Results = ({
   codeResult,
+  isRunning,
 }: {
   codeResult: { result: string; iserror: boolean };
+  isRunning: boolean;
 }) => {
   return (
     <Flex direction="column" padding={2} height="50%">
       <Heading mb="2px">Results</Heading>
+	  { isRunning ?
+	  <Spinner size='xl' />
+	  :
       <Text
         whiteSpace="pre-wrap"
         fontFamily="monospace"
@@ -17,6 +22,7 @@ const Results = ({
       >
         {codeResult.result}
       </Text>
+	  }
     </Flex>
   );
 };
