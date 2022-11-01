@@ -2,60 +2,60 @@ ingress:
   enabled: true
   className: nginx
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 
   hosts:
     paths:
-      - path: /api/user
+      - path: /api/user(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-user-svc
             port:
               name: user-svc
-      - path: /api/match
+      - path: /api/match(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-matching-svc
             port:
               name: matching-svc
-      # - path: /api/fe
+      # - path: /api/fe(/|$)(.*)
       #   pathType: Exact
       #   backend:
       #     service:
       #       name: peerprep-frontend
       #       port:
       #         name: frontend-http
-      - path: /api/coderunner
+      - path: /api/coderunner(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-coderunner-svc
             port:
               name: coderunner-svc
-      - path: /api/collab
+      - path: /api/collab(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-collab-svc
             port:
               name: collab-svc
-      - path: /api/communication
+      - path: /api/communication(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-communication-svc
             port:
               name: comm-svc
-      - path: /api/question
+      - path: /api/question(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-question-svc
             port:
               name: question-svc
-      - path: /api/kafka
+      - path: /api/kafka(/|$)(.*)
         pathType: Prefix
         backend:
           service:
@@ -108,7 +108,7 @@ matching_svc:
 
     ports:
       name: matching-svc
-      containerPort: 8080
+      containerPort: 8001
 
   service:
     type: ClusterIP
@@ -125,7 +125,7 @@ coderunner_svc:
 
     ports:
       name: coderunner-svc
-      containerPort: 8080
+      containerPort: 6969
 
   service:
     type: ClusterIP
@@ -142,7 +142,7 @@ collab_svc:
 
     ports:
       name: collab-svc
-      containerPort: 8080
+      containerPort: 8002
 
   service:
     type: ClusterIP
@@ -159,7 +159,7 @@ communication_svc:
 
     ports:
       name: comm-svc
-      containerPort: 8080
+      containerPort: 8003
 
   service:
     type: ClusterIP
@@ -176,7 +176,7 @@ question_svc:
 
     ports:
       name: question-svc
-      containerPort: 8080
+      containerPort: 3000
 
   service:
     type: ClusterIP
