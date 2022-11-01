@@ -69,8 +69,8 @@ frontend:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
-      tag: latest
+      repository: pangpuncake/frontend
+      tag: 1.0.0
 
     ports:
       name: frontend-http
@@ -86,8 +86,8 @@ user_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
-      tag: latest
+      repository: pangpuncake/user
+      tag: 1.0.0
 
     ports:
       name: user-svc
@@ -103,8 +103,8 @@ matching_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
-      tag: latest
+      repository: pangpuncake/matching
+      tag: 1.0.0
 
     ports:
       name: matching-svc
@@ -120,8 +120,8 @@ coderunner_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
-      tag: latest
+      repository: pangpuncake/coderunner
+      tag: 1.0.0
 
     ports:
       name: coderunner-svc
@@ -137,8 +137,8 @@ collab_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
-      tag: latest
+      repository: pangpuncake/collab
+      tag: 1.0.0
 
     ports:
       name: collab-svc
@@ -154,8 +154,8 @@ communication_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
-      tag: latest
+      repository: pangpuncake/communication
+      tag: 1.0.0
 
     ports:
       name: communication-svc
@@ -171,8 +171,8 @@ question_svc:
 
   deployment:
     image:
-      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
-      tag: latest
+      repository: pangpuncake/question
+      tag: 1.0.0
 
     ports:
       name: question-svc
