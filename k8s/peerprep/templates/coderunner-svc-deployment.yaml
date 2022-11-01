@@ -1,0 +1,23 @@
+{{- if .Values.coderunner_svc.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "peerprep.coderunner_svc.name" . }}
+  labels: {{- include "peerprep.coderunner_svc.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.coderunner_svc.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "peerprep.coderunner_svc.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "peerprep.coderunner_svc.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "peerprep.coderunner_svc.name" . }}
+          image: {{ .Values.coderunner_svc.deployment.image.repository }}:{{ .Values.coderunner_svc.deployment.image.tag | default .Chart.AppVersion }}
+          ports:
+            - name: {{ .Values.coderunner_svc.deployment.ports.name }}
+              containerPort: {{ .Values.coderunner_svc.deployment.ports.containerPort }}
+              protocol: TCP
+{{- end }}

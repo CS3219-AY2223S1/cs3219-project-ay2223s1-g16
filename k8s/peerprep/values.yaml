@@ -27,6 +27,41 @@ ingress:
       #       name: peerprep-frontend
       #       port:
       #         name: frontend-http
+      - path: /api/coderunner
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-coderunner-svc
+            port:
+              name: coderunner-svc
+      - path: /api/collab
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-collab-svc
+            port:
+              name: collab-svc
+      - path: /api/communication
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-communication-svc
+            port:
+              name: communication-svc
+      - path: /api/question
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-question-svc
+            port:
+              name: question-svc
+      - path: /api/kafka
+        pathType: Prefix
+        backend:
+          service:
+            name: kafka-1
+            port:
+              name: "29092"
 
 frontend:
   enabled: false
@@ -73,6 +108,74 @@ matching_svc:
 
     ports:
       name: matching-svc
+      containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 80
+
+coderunner_svc:
+  enabled: true
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
+      tag: latest
+
+    ports:
+      name: coderunner-svc
+      containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 80
+
+collab_svc:
+  enabled: true
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
+      tag: latest
+
+    ports:
+      name: collab-svc
+      containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 80
+
+communication_svc:
+  enabled: true
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
+      tag: latest
+
+    ports:
+      name: communication-svc
+      containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 80
+
+question_svc:
+  enabled: true
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
+      tag: latest
+
+    ports:
+      name: question-svc
       containerPort: 8080
 
   service:

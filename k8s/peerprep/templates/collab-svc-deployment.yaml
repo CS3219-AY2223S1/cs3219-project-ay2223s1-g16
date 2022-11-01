@@ -1,0 +1,23 @@
+{{- if .Values.collab_svc.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "peerprep.collab_svc.name" . }}
+  labels: {{- include "peerprep.collab_svc.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.collab_svc.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "peerprep.collab_svc.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "peerprep.collab_svc.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "peerprep.collab_svc.name" . }}
+          image: {{ .Values.collab_svc.deployment.image.repository }}:{{ .Values.collab_svc.deployment.image.tag | default .Chart.AppVersion }}
+          ports:
+            - name: {{ .Values.collab_svc.deployment.ports.name }}
+              containerPort: {{ .Values.collab_svc.deployment.ports.containerPort }}
+              protocol: TCP
+{{- end }}

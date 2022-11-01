@@ -1,0 +1,23 @@
+{{- if .Values.communication_svc.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "peerprep.communication_svc.name" . }}
+  labels: {{- include "peerprep.communication_svc.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.communication_svc.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "peerprep.communication_svc.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "peerprep.communication_svc.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "peerprep.communication_svc.name" . }}
+          image: {{ .Values.communication_svc.deployment.image.repository }}:{{ .Values.communication_svc.deployment.image.tag | default .Chart.AppVersion }}
+          ports:
+            - name: {{ .Values.communication_svc.deployment.ports.name }}
+              containerPort: {{ .Values.communication_svc.deployment.ports.containerPort }}
+              protocol: TCP
+{{- end }}

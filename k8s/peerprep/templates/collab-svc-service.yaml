@@ -1,0 +1,17 @@
+{{- if .Values.collab_svc.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "peerprep.collab_svc.name" . }}
+  labels:
+    {{- include "peerprep.collab_svc.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.collab_svc.service.type }}
+  ports:
+    - port: {{ .Values.collab_svc.service.port }}
+      targetPort: {{ .Values.collab_svc.deployment.ports.name }}
+      protocol: TCP
+      name: {{ .Values.collab_svc.deployment.ports.name }}
+  selector:
+    {{- include "peerprep.collab_svc.selectorLabels" . | nindent 4 }}
+{{- end }}

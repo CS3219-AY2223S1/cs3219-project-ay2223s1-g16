@@ -1,0 +1,17 @@
+{{- if .Values.coderunner_svc.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "peerprep.coderunner_svc.name" . }}
+  labels:
+    {{- include "peerprep.coderunner_svc.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.coderunner_svc.service.type }}
+  ports:
+    - port: {{ .Values.coderunner_svc.service.port }}
+      targetPort: {{ .Values.coderunner_svc.deployment.ports.name }}
+      protocol: TCP
+      name: {{ .Values.coderunner_svc.deployment.ports.name }}
+  selector:
+    {{- include "peerprep.coderunner_svc.selectorLabels" . | nindent 4 }}
+{{- end }}

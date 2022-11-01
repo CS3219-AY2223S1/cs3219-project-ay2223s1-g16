@@ -1,0 +1,17 @@
+{{- if .Values.question_svc.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "peerprep.question_svc.name" . }}
+  labels:
+    {{- include "peerprep.question_svc.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.question_svc.service.type }}
+  ports:
+    - port: {{ .Values.question_svc.service.port }}
+      targetPort: {{ .Values.question_svc.deployment.ports.name }}
+      protocol: TCP
+      name: {{ .Values.question_svc.deployment.ports.name }}
+  selector:
+    {{- include "peerprep.question_svc.selectorLabels" . | nindent 4 }}
+{{- end }}
