@@ -23,6 +23,8 @@ services:
       context: ./matching-service
       dockerfile: ../node.dockerfile
     command: npm run dev
+    environment:
+      - QN_SVC_URL=http://host.docker.internal:3000/api/v1
     ports:
       - "8001:8001"
   collab-svc:
@@ -30,7 +32,8 @@ services:
       context: ./collab-service
       dockerfile: ../node.dockerfile
     command: npm run dev
-    network_mode: host
+    ports:
+      - "8002:8002"
   question-svc:
     build:
       context: ./question-service
