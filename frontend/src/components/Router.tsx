@@ -23,7 +23,7 @@ const PrivateRoute = () => {
 // Main Component
 const Router = () => {
   return (
-    <BrowserRouter basename={import.meta.env.VITE_PUBLIC_BASE_URL}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route element={<PrivateRoute />}>
