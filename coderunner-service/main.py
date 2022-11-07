@@ -1,58 +1,22 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import subprocess
 import json
+from executor import Executor
 
 hostName = "0.0.0.0"
 serverPort = 6969
-l = {
-    'python' : ["python3", "-c"],
-    'js' : ["node", "-e"],
-    'cpp' : ['NOT IMPLEMENTED'],
-    'java' : ['NOT IMPLEMENTED'],
 
-}
-compiled_languages = { 'cpp', 'java' }
-TIMEOUT = 10 # timeout for running user programs
 
-def run(l):
-    output = None
-    err = None
-    try:
-        output = subprocess.check_output(l,  stderr=subprocess.STDOUT, timeout=TIMEOUT).decode('utf-8')
-    except subprocess.CalledProcessError as e:
-        err = e.output.decode('utf-8')
-    except subprocess.TimeoutExpired as e:
-        err = f"Program Timed out after {TIMEOUT} seconds"
-
-    return output, err
-
-def handle_request(req) -> str:
+def handle_request(req):
     if 'src' not in req: return "Missing source"
     if 'lang' not in req: return "Missing Language"
     src = req['src']
     lang = req['lang']
-    if lang not in l: return "Language not supported"
+    if not Executor.is_language_supported(lang): return "Language not supported"
 
     src = src.replace('"', '\"').replace("'", '\"')
     if not src: return ""
 
-
-    if lang in compiled_languages:
-        # create file
-        name, err = run(['safe_touch',src,lang])
-        if err: return "Unable to create file"
-
-        # TODO: refactor
-        if lang == 'cpp': 
-            res, err = run(["g++", name,'-o',name.split('.')[0]])
-            if err: return err
-            res, err = run([name.split('.')[0]])
-        else: # java
-            res, err = run(["java", name])
-
-    else:
-        res, err = run([*l[lang], src])
-
+    res, err = Executor.new(lang).run(src)
 
     return { "result" : err if err else res, "iserror": bool(err) }
 
