@@ -35,7 +35,7 @@ const PeerPrepCodeMirror = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [languageExt, setLanguageExt] = useState<LanguageSupport>(python());
   const [language, setLanguage] = useState<string>("Python");
-  const [isRunning, setIsRunning] = useState<Boolean>(false);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
   const toast = useToast();
   const zustandRoomId = useMatchStore((state) => state.roomId);
   const zustandUsername = useUserStore((state) => state.username);
@@ -122,16 +122,16 @@ const PeerPrepCodeMirror = () => {
         lang: mapping[language],
       })
       .then((result) => {
-		  if (!result.data.iserror && result.data.result == "") {
-			  setCodeResult({
-				result: "<no output to stdout>",
-				iserror: false
-				})
-		  } else {
-			  setCodeResult(result.data);
-		  }
-		  setIsRunning(false);
-	  });
+        if (!result.data.iserror && result.data.result == "") {
+          setCodeResult({
+            result: "<no output to stdout>",
+            iserror: false,
+          });
+        } else {
+          setCodeResult(result.data);
+        }
+        setIsRunning(false);
+      });
   };
 
   socket?.on(CODE_JOINED, codeJoinedHandler);
