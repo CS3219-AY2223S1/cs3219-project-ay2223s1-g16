@@ -34,7 +34,7 @@ jobs:
         with:
           name: vite-build
       - name: Deploy to GitHub Actions
-          uses: JamesIves/github-pages-deploy-action@releases/v3
-          with:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            FOLDER: .
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FOLDER: .
