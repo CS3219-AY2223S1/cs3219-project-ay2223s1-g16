@@ -31,7 +31,7 @@ We also want to setup authentication with docker for our region:
 
 Afterwards we need to export the configuration so that helm will use the credentials to upload to Artifact Registry:
 
-`export HELM_REGISTRY_CONFIG=~/.docker/config.json `
+`export HELM_REGISTRY_CONFIG=~/.docker/config.json`
 
 We can then push the packaged file to the Artifact Registry (replace `<VERSION>` with the latest version):
 
@@ -51,9 +51,13 @@ We need to authenticate first:
 
 `gcloud auth application-default print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://asia-southeast1-docker.pkg.dev`
 
+And next create the kubeconfig entry:
+
+`gcloud container clusters get-credentials peerprep --region=asia-southeast1`
+
 We can then install the chart:
 
-`helm install peerprep oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 1.0.5`
+`helm install peerprep oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 1.0.6`
 
 ### Pulling the chart to local environment:
 

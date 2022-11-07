@@ -1,6 +1,6 @@
 FROM node
-WORKDIR /app
+WORKDIR /
 COPY package.json .
 RUN npm install --quiet
 COPY . .
-CMD ["npm", "run", "dev"]
+CMD [ "npm", "run", "dev"]

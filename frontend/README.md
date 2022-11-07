@@ -1,9 +1,3 @@
-# PeerPrep Frontend
-
-This react project is bootstrapped using vite.
-
-## Getting Started
-```
-npm i
-npm run dev
-```
+## Frontend
+1. Install npm packages using `npm i`.
+2. Run Frontend using `npm start`.
