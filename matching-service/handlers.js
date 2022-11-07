@@ -39,6 +39,7 @@ export async function newMatchHandler({ username, difficulty }) {
   } else {
     clearTimeout(timeout_store[pendingMatch.username1])
     let question = null;
+    pendingMatch.completePendingMatch(username);
     try {
       question = await getQuestionFromQnSvc(
         difficulty,
@@ -48,7 +49,6 @@ export async function newMatchHandler({ username, difficulty }) {
     } catch (err) {
       console.log(err);
     }
-    pendingMatch.completePendingMatch(username);
     socket.join(pendingMatch.roomid);
     _io.to(pendingMatch.roomid).emit(MATCH_SUCCESS, {
       roomId: pendingMatch.roomid,

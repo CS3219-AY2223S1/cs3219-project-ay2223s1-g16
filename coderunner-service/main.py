@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import subprocess
 import json
 
-hostName = "localhost"
+hostName = "0.0.0.0"
 serverPort = 6969
 l = {
     'python' : ["python3", "-c"],

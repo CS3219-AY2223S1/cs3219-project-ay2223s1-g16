@@ -119,9 +119,9 @@ export async function ormChangePassword(username, oldPassword, password) {
   }
 }
 
-export async function ormAddQuestionToUserHistory(user, question) {
+export async function ormAddQuestionToUserHistory(username, question) {
   try {
-    await addToHistory(user, question);
+    await addToHistory(username, question);
   } catch (err) {
     console.log("Failed to add question to user's history");
     return { err };

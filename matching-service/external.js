@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const QN_SVC_URL = "http://localhost:3000/api/v1";
+const QN_SVC_URL = process.env.QN_SVC_URL || "http://localhost:3000/api/v1";
 
 const getQuestionFromQnSvc = async (difficulty, userOne, userTwo) => {
   const response = await fetch(
