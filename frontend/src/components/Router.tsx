@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 import useUserStore from "~/store/userStore";
 import Layout from "~/components/Layout";
@@ -23,7 +17,7 @@ const PrivateRoute = () => {
 // Main Component
 const Router = () => {
   return (
-    <BrowserRouter>
+    <HashRouter basename={import.meta.env.VITE_PUBLIC_BASE_URL}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route element={<PrivateRoute />}>
@@ -35,7 +29,7 @@ const Router = () => {
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
