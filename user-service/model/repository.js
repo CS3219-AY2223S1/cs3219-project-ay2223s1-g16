@@ -34,8 +34,8 @@ export async function changePassword(username, password) {
   return UserModel.updateOne({ username: username }, { password: password });
 }
 
-export async function addToHistory(userId, question) {
-  const user = await UserModel.findById(userId);
+export async function addToHistory(username, question) {
+  const user = await UserModel.findOne({ username });
   user.history.push(question);
   await user.save();
   return user;
