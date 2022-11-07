@@ -53,7 +53,7 @@ We need to authenticate first:
 
 We can then install the chart:
 
-`helm install peerprep oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 0.1.0`
+`helm install peerprep oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 1.0.5`
 
 ### Pulling the chart to local environment:
 

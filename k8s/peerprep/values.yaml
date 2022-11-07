@@ -20,13 +20,13 @@ ingress:
             name: peerprep-matching-svc
             port:
               name: matching-svc
-      # - path: /api/fe(/|$)(.*)
-      #   pathType: Exact
-      #   backend:
-      #     service:
-      #       name: peerprep-frontend
-      #       port:
-      #         name: frontend-http
+      - path: /api/fe(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-frontend
+            port:
+              name: frontend-svc
       - path: /api/coderunner(/|$)(.*)
         pathType: Prefix
         backend:
@@ -64,17 +64,17 @@ ingress:
               name: kafka-1
 
 frontend:
-  enabled: false
+  enabled: true
   replicaCount: 1
 
   deployment:
     image:
       repository: pangpuncake/frontend
-      tag: 1.0.0
+      tag: 1.0.2
 
     ports:
-      name: frontend-http
-      containerPort: 8080
+      name: frontend-svc
+      containerPort: 5173
 
   service:
     type: ClusterIP
@@ -91,7 +91,7 @@ user_svc:
 
     ports:
       name: user-svc
-      containerPort: 8080
+      containerPort: 8000
 
   service:
     type: ClusterIP

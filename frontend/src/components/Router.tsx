@@ -13,7 +13,6 @@ import HomePage from "~/pages/HomePage/HomePage";
 import RoomPage from "~/pages/RoomPage/RoomPage";
 import NotFoundPage from "~/pages/NotFoundPage";
 import AccountPage from "~/pages/AccountPage/AccountPage";
-import CollabPage from "~/pages/CollabPage/CollabPage";
 
 const PrivateRoute = () => {
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
