@@ -1,6 +1,6 @@
 # Peer Prep
 
-# Running Application
+### Running Application
 
 1. Obtain `.env` files for user-service, question-service and place it in their respective directories
 1. Run kafka using `docker-compose -f ./kafka/docker-compose.yml up -d`
