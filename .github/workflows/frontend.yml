@@ -11,8 +11,8 @@ on:
       - frontend/**
 
 jobs:
-  build:
-    name: Build
+  build-and-deply:
+    name: Build and Deploy
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -24,22 +24,7 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Upload Build
-        uses: actions/upload-artifact@v2
-        with:
-          name: vite-build
-          path: ./frontend/dist
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download build
-        uses: actions/download-artifact@v2
-        with:
-          name: vite-build
-      - name: Deploy to GitHub Actions
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          folder: .
+          folder: dist
