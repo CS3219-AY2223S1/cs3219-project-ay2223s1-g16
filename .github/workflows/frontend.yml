@@ -40,6 +40,6 @@ jobs:
         with:
           name: vite-build
       - name: Deploy to GitHub Actions
-        uses: JamesIves/github-pages-deploy@@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           folder: .
