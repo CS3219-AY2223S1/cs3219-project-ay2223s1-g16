@@ -3,10 +3,12 @@ name: Vite CI/CD with GitHub Pages
 on:
   push:
     branches: ["main"]
+    paths:
+      - frontend/**
   pull_request:
     branches: ["main"]
-  paths:
-    - frontend/**
+    paths:
+      - frontend/**
 
 jobs:
   build:
