@@ -26,7 +26,8 @@ const io = new Server(httpServer, {
   },
 });
 
-io.on("connection", (socket) => {
+const namespace = io.of("/api/communication/");
+namespace.on("connection", (socket) => {
   socket.on(CHAT_NEW, ({ roomId, username }) => {
     socket.join(roomId);
     io.to(roomId).emit(CHAT_JOINED, username);
