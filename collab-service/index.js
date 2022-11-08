@@ -27,9 +27,7 @@ const io = new Server(httpServer, {
   },
 });
 
-const namespace = io.of("/api/collab/");
-
-namespace.on("connection", (socket) => {
+io.on("connection", (socket) => {
   socket.on(CODE_CONNECT_NEW, ({ roomId, username }) => {
     console.log(`New connection to room ${roomId} from ${username}`);
     console.log(`Socket ID: ${socket.id}`);
