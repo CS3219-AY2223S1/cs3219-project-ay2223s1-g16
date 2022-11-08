@@ -14,4 +14,5 @@ RUN echo "#!/bin/bash \nX=\$RANDOM.\$2;printf \"\$1\" > /tmp/\$X; printf /tmp/\$
 USER nobody
 
 COPY main.py /app/main.py
+COPY executor.py /app/executor.py
 CMD [ "python", "/app/main.py" ]
