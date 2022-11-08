@@ -2,7 +2,6 @@ import { addPendingMatch, Match, removeMatch } from "./repository.js";
 import { MATCH_FAIL, MATCH_SUCCESS, MATCH_START } from "./events.js";
 import { getQuestionFromQnSvc } from "./external.js";
 
-// TODO: Shift into constants file
 const MATCH_TIMEOUT = 30;
 
 let _io = undefined;
@@ -61,7 +60,6 @@ export async function newMatchHandler({ username, difficulty }) {
 
 export async function leaveMatchHandler({ roomid }) {
    await Match.destroy({ where: { roomid: roomid } });
-  // TODO: Should i make the sockets leave the room?
   this.emit(MATCH_FAIL);
   _io.to(Number(roomid)).emit(MATCH_FAIL);
 }
@@ -70,7 +68,6 @@ export async function disconnectHandler() {
   const socket = this;
   if (socket.username == undefined) return;
   const roomids = await removeMatch(socket.username);
-  // TODO: Iterating through all rooms including partial matches, possible optimization.
   roomids.forEach((rid) => {
     _io.to(rid).emit(MATCH_FAIL);
   });
