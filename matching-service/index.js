@@ -10,6 +10,9 @@ import {
 } from "./handlers.js";
 import { MATCH_LEAVE, MATCH_REQUEST_NEW } from "./events.js";
 
+import * as dotenv from "dotenv";
+dotenv.config();
+
 const app = express();
 
 // Middleware
