@@ -11,7 +11,7 @@ app.use(cors()); // config cors so that front-end can use
 app.options("*", cors());
 app.use(
   expressjwt({ secret: process.env.JWT_KEY, algorithms: ["HS256"] }).unless({
-    path: ["/", "/api/user/login", "/api/user/"],
+    path: ["/", "/login"],
   })
 );
 
@@ -34,7 +34,7 @@ router.post("/login", loginUser);
 router.post("/delete", deleteUser);
 router.post("/password", changePassword);
 
-app.use("/api/user", router).all((_, res) => {
+app.use("/", router).all((_, res) => {
   res.setHeader("content-type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "*");
 });

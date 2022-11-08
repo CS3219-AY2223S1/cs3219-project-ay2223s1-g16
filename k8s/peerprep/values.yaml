@@ -2,63 +2,63 @@ ingress:
   enabled: true
   className: nginx
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/cors-allow-credentials: true
     nginx.ingress.kubernetes.io/cors-allow-methods: DELETE, PUT, GET, POST, OPTIONS
     nginx.ingress.kubernetes.io/enable-cors: true
 
   hosts:
     paths:
-      - path: /api/user(/|$)(.*)
+      - path: /api/user/(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-user-svc
             port:
               name: user-svc
-      - path: /api/match(/|$)(.*)
+      - path: /api/match/(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-matching-svc
             port:
               name: matching-svc
-      - path: /api/fe(/|$)(.*)
+      - path: /(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-frontend
             port:
               name: frontend-svc
-      - path: /api/coderunner(/|$)(.*)
+      - path: /api/coderunner/(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-coderunner-svc
             port:
               name: coderunner-svc
-      - path: /api/collab(/|$)(.*)
+      - path: /api/collab/(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-collab-svc
             port:
               name: collab-svc
-      - path: /api/communication(/|$)(.*)
+      - path: /api/communication/(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-communication-svc
             port:
               name: comm-svc
-      - path: /api/question(/|$)(.*)
+      - path: /api/question/(.*)
         pathType: Prefix
         backend:
           service:
             name: peerprep-question-svc
             port:
               name: question-svc
-      - path: /api/kafka(/|$)(.*)
+      - path: /api/kafka/(.*)
         pathType: Prefix
         backend:
           service:
