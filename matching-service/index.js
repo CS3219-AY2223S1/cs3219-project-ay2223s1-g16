@@ -21,6 +21,12 @@ app.use(express.json());
 app.use(cors()); // config cors so that front-end can use
 app.options("*", cors());
 
+// Request Logger
+app.use((req,res,next) => {
+    console.log(req.baseUrl,req.url, req.hostname)
+    next()
+})
+
 // App Handlers
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
