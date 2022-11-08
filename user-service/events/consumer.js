@@ -6,7 +6,7 @@ const TOPIC = "user-question";
 
 const kafka = new Kafka({
   clientId: "user-service",
-  brokers: [process.env.KAFKA_BROKER],
+  brokers: ["kafka-1:29092"],
 });
 
 const consumer = kafka.consumer({ groupId: "user-service" });

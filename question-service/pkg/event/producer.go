@@ -3,8 +3,8 @@ package event
 import (
 	"context"
 	"encoding/json"
+
 	"github.com/segmentio/kafka-go"
-	"question-service/pkg/config"
 )
 
 const (
@@ -17,7 +17,7 @@ var (
 
 func InitKafkaProducer() {
 	kafkaWriter = &kafka.Writer{
-		Addr:                   kafka.TCP(config.KAFKA_BROKER),
+		Addr:                   kafka.TCP("kafka-1:29092"),
 		Topic:                  TOPIC,
 		AllowAutoTopicCreation: true,
 	}

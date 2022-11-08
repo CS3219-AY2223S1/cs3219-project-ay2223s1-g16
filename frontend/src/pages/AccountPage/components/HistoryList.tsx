@@ -65,7 +65,7 @@ const HistoryList = ({
           const { _id, title } = qn;
           return (
             <Box
-              key={_id}
+              key={idx}
               onClick={() => onSelect(idx, _id)}
               sx={{ cursor: "pointer" }}
             >
