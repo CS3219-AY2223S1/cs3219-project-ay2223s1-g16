@@ -29,12 +29,13 @@ const io = new Server(httpServer, {
 const namespace = io.of("/api/communication/");
 namespace.on("connection", (socket) => {
   socket.on(CHAT_NEW, ({ roomId, username }) => {
+    console.log("CONNECTION: ", roomId, username);
     socket.join(roomId);
     io.to(roomId).emit(CHAT_JOINED, username);
   });
 
   socket.on(CHAT_MESSAGE, ({ roomId, username, text }) => {
-    console.log(username, text);
+    console.log("MESAGE: ", username, text);
     io.to(roomId).emit(CHAT_MESSAGE, { username, text });
   });
 
