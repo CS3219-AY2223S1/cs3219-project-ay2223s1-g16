@@ -21,7 +21,9 @@ const Chat = () => {
   const zustandUsername = useUserStore((state) => state.username);
 
   useEffect(() => {
-    const clientSocket = io(import.meta.env.VITE_COMM_SVC_URL);
+    const clientSocket = io(import.meta.env.VITE_COMM_SVC_URL, {
+      path: "/api/communication/socket.io/",
+    });
     setSocket(clientSocket);
     clientSocket?.emit(CHAT_NEW, {
       roomId: zustandRoomId,

@@ -34,6 +34,7 @@ namespace.on("connection", (socket) => {
   });
 
   socket.on(CHAT_MESSAGE, ({ roomId, username, text }) => {
+    console.log(username, text);
     io.to(roomId).emit(CHAT_MESSAGE, { username, text });
   });
 

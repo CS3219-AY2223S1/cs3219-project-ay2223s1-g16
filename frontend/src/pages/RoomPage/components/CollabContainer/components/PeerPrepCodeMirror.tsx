@@ -53,7 +53,9 @@ const PeerPrepCodeMirror = () => {
   };
 
   useEffect(() => {
-    const clientSocket = io(import.meta.env.VITE_COLLAB_SVC_URL);
+    const clientSocket = io(import.meta.env.VITE_COLLAB_SVC_URL, {
+      path: "/api/collab/socket.io/",
+    });
     setSocket(clientSocket);
     clientSocket?.emit(CODE_CONNECT_NEW, {
       roomId: zustandRoomId,
