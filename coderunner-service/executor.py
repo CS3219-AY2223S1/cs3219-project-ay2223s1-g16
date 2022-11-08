@@ -42,7 +42,7 @@ class NodeExecutor(Executor):
 
 class CppExecutor(Executor):
     def run(self, src):
-        name, err = super().run_cmd(['safe_touch',src,lang])
+        name, err = super().run_cmd(['safe_touch',src,"cpp"])
         if err: return "Unable to create file"
         res, err = super().run_cmd(["g++", name,'-o',name.split('.')[0]])
         if err: return err
@@ -50,7 +50,7 @@ class CppExecutor(Executor):
 
 class JavaExecutor(Executor):
     def run(self, src):
-        name, err = super().run_cmd(['safe_touch',src,lang])
+        name, err = super().run_cmd(['safe_touch',src,"java"])
         if err: return "Unable to create file"
 
         return super().run_cmd(["java", name])
