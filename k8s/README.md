@@ -57,8 +57,10 @@ And next create the kubeconfig entry:
 
 We can then install the chart:
 
-`helm install peerprep oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 1.0.6`
+`helm install peerprep oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 1.1.0`
+
+`helm upgrade peerprep oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 1.1.0`
 
 ### Pulling the chart to local environment:
 
-`helm pull oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 0.1.0`
+`helm pull oci://asia-southeast1-docker.pkg.dev/cs3219-peerprep-g16/peerprep/peerprep --version 1.1.0`

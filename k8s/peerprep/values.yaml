@@ -2,10 +2,10 @@ ingress:
   enabled: true
   className: nginx
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/cors-allow-credentials: true
-    nginx.ingress.kubernetes.io/cors-allow-methods: DELETE, PUT, GET, POST, OPTIONS
-    nginx.ingress.kubernetes.io/enable-cors: true
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "DELETE, PUT, GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
 
   hosts:
     paths:
@@ -73,7 +73,7 @@ frontend:
   deployment:
     image:
       repository: pangpuncake/frontend
-      tag: 1.0.2
+      tag: 1.0.15
 
     ports:
       name: frontend-svc
@@ -90,7 +90,7 @@ user_svc:
   deployment:
     image:
       repository: pangpuncake/user
-      tag: 1.0.0
+      tag: 1.0.3
 
     ports:
       name: user-svc
@@ -107,7 +107,7 @@ matching_svc:
   deployment:
     image:
       repository: pangpuncake/matching
-      tag: 1.0.0
+      tag: 1.0.8
 
     ports:
       name: matching-svc
@@ -124,7 +124,7 @@ coderunner_svc:
   deployment:
     image:
       repository: pangpuncake/coderunner
-      tag: 1.0.0
+      tag: 1.0.3
 
     ports:
       name: coderunner-svc
@@ -141,7 +141,7 @@ collab_svc:
   deployment:
     image:
       repository: pangpuncake/collab
-      tag: 1.0.0
+      tag: 1.0.2
 
     ports:
       name: collab-svc
@@ -158,7 +158,7 @@ communication_svc:
   deployment:
     image:
       repository: pangpuncake/communication
-      tag: 1.0.0
+      tag: 1.0.3
 
     ports:
       name: comm-svc
@@ -175,7 +175,7 @@ question_svc:
   deployment:
     image:
       repository: pangpuncake/question
-      tag: 1.0.0
+      tag: 1.0.2
 
     ports:
       name: question-svc
