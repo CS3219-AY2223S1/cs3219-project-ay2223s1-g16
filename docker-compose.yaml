@@ -1,0 +1,62 @@
+version: '3'
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/:/app
+  user-svc:
+    build: 
+      context: ./user-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./user-service/:/app
+  matching-svc:
+    build: 
+      context: ./matching-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    environment:
+      - QN_SVC_URL=http://host.docker.internal:3000/api/v1
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./matching-service/:/app
+  collab-svc:
+    build: 
+      context: ./collab-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./collab-service/:/app
+  question-svc:
+    build:
+      context: ./question-service
+      dockerfile: ../go.dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./question-service/:/go/src/
+  communication-svc:
+    build:
+      context: ./communication-service
+      dockerfile: ../node.dockerfile
+    command: npm run dev
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./communication-service/:/app
+  code-runner-svc:
+    build:
+      context: ./coderunner-service
+    ports:
+      - "6969:6969"

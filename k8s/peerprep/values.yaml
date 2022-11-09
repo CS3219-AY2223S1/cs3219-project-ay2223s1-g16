@@ -1,0 +1,80 @@
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+  hosts:
+    paths:
+      - path: /api/user
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-user-svc
+            port:
+              name: user-svc
+      - path: /api/match
+        pathType: Prefix
+        backend:
+          service:
+            name: peerprep-matching-svc
+            port:
+              name: matching-svc
+      # - path: /api/fe
+      #   pathType: Exact
+      #   backend:
+      #     service:
+      #       name: peerprep-frontend
+      #       port:
+      #         name: frontend-http
+
+frontend:
+  enabled: false
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
+      tag: latest
+
+    ports:
+      name: frontend-http
+      containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 80
+
+user_svc:
+  enabled: true
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
+      tag: latest
+
+    ports:
+      name: user-svc
+      containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 80
+
+matching_svc:
+  enabled: true
+  replicaCount: 3
+
+  deployment:
+    image:
+      repository: pangpuncake/cs3219_a1.1 # TODO: Update to the docker image
+      tag: latest
+
+    ports:
+      name: matching-svc
+      containerPort: 8080
+
+  service:
+    type: ClusterIP
+    port: 80

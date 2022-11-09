@@ -1,0 +1,17 @@
+{{- if .Values.matching_svc.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "peerprep.matching_svc.name" . }}
+  labels:
+    {{- include "peerprep.matching_svc.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.matching_svc.service.type }}
+  ports:
+    - port: {{ .Values.matching_svc.service.port }}
+      targetPort: {{ .Values.matching_svc.deployment.ports.name }}
+      protocol: TCP
+      name: {{ .Values.matching_svc.deployment.ports.name }}
+  selector:
+    {{- include "peerprep.matching_svc.selectorLabels" . | nindent 4 }}
+{{- end }}

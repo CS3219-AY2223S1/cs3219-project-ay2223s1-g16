@@ -1,0 +1,8 @@
+# # Environment
+.env
+.env.sample
+
+# # npm
+node_modules
+*.log
+*.gz
